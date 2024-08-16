@@ -1,8 +1,127 @@
-[gd_scene load_steps=4 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=20 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
+[ext_resource type="Texture2D" uid="uid://cehhhqp6p8g3w" path="res://entities/jon/assets/jon_torso.png" id="2_65ey6"]
+[ext_resource type="Texture2D" uid="uid://rumuestng7wh" path="res://entities/jon/assets/jon_leftarm.png" id="3_2vd3e"]
+[ext_resource type="Texture2D" uid="uid://8f1pdaerpv67" path="res://entities/jon/assets/jon_rightarm.png" id="4_vtnu8"]
+[ext_resource type="Texture2D" uid="uid://cfsdmcv4f2hap" path="res://entities/jon/assets/jon_cloak.png" id="5_8hv4d"]
+[ext_resource type="Texture2D" uid="uid://b2ef6h3t8ispq" path="res://entities/jon/assets/jon_head.png" id="5_ifitq"]
+[ext_resource type="Texture2D" uid="uid://crcqsx3t43pyo" path="res://entities/jon/assets/jon_face.png" id="6_wdgd4"]
+[ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="8_f0gdn"]
+[ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
 
-[sub_resource type="Animation" id="Animation_dos6n"]
+[sub_resource type="Animation" id="Animation_jvs81"]
+resource_name = "blink"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_xk73p"]
+resource_name = "default"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_2frh6"]
+resource_name = "idle"
+length = 4.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 0]
+}
+
+[sub_resource type="Animation" id="Animation_nxy77"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
+_data = {
+"RESET": SubResource("Animation_nxy77"),
+"blink": SubResource("Animation_jvs81"),
+"default": SubResource("Animation_xk73p"),
+"idle": SubResource("Animation_2frh6")
+}
+
+[sub_resource type="Animation" id="Animation_rrbfn"]
 length = 0.3
 loop_mode = 1
 tracks/0/type = "value"
@@ -30,9 +149,130 @@ tracks/1/keys = {
 "values": [0, 0, 0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b2dc7"]
 _data = {
-"default": SubResource("Animation_dos6n")
+"default": SubResource("Animation_rrbfn")
+}
+
+[sub_resource type="Animation" id="Animation_ilu5l"]
+resource_name = "idle"
+length = 1.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Torso/Head/Face/FaceAnim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("idle"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Torso:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Torso/Head:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Torso/Backpack/BackpackSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, -1), Vector2(0, -1), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Torso/Backpack:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x6gh0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Torso:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Torso/Head:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Torso/Backpack/BackpackSprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Torso/Backpack:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mmq3v"]
+_data = {
+"RESET": SubResource("Animation_x6gh0"),
+"idle": SubResource("Animation_ilu5l")
 }
 
 [node name="Jon" type="CharacterBody2D"]
@@ -66,3 +306,243 @@ metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
+
+[node name="Torso" type="Sprite2D" parent="JonSprite"]
+texture_filter = 1
+texture = ExtResource("2_65ey6")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "torso",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/TorsoAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": true,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="TorsoAnim" type="AnimationPlayer" parent="JonSprite/Torso"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
+
+[node name="Arms" type="Node2D" parent="JonSprite/Torso"]
+
+[node name="LeftArm" type="Sprite2D" parent="JonSprite/Torso/Arms"]
+texture_filter = 1
+texture = ExtResource("3_2vd3e")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "leftarm",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Arms/LeftArm/LeftArmAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": true,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="LeftArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/LeftArm"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
+
+[node name="RightArm" type="Sprite2D" parent="JonSprite/Torso/Arms"]
+z_index = -1
+texture_filter = 1
+texture = ExtResource("4_vtnu8")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "rightarm",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Arms/RightArm/RightArmAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": true,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="RightArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/RightArm"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
+
+[node name="Head" type="Sprite2D" parent="JonSprite/Torso"]
+texture_filter = 1
+texture = ExtResource("5_ifitq")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "head",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Head/HeadAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": false
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="HeadAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
+
+[node name="Face" type="Sprite2D" parent="JonSprite/Torso/Head"]
+texture_filter = 1
+texture = ExtResource("6_wdgd4")
+hframes = 2
+vframes = 2
+frame = 2
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "face",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Head/Face/FaceAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": false
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="FaceAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head/Face"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
+
+[node name="Cloak" type="Sprite2D" parent="JonSprite/Torso"]
+texture_filter = 1
+texture = ExtResource("5_8hv4d")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "cloak",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Arms/Cloak/CloakAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": false
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="CloakAnim" type="AnimationPlayer" parent="JonSprite/Torso/Cloak"]
+libraries = {
+"": SubResource("AnimationLibrary_b2dc7")
+}
+
+[node name="Backpack" type="Node2D" parent="JonSprite/Torso"]
+
+[node name="BackpackSprite" type="Sprite2D" parent="JonSprite/Torso/Backpack"]
+z_index = -1
+texture_filter = 1
+texture = ExtResource("8_f0gdn")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "backpack",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Backpack/BackpackSprite/BackpackAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="BackpackAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_b2dc7")
+}
+
+[node name="BackpackBelt" type="Sprite2D" parent="JonSprite/Torso/Backpack"]
+z_index = 1
+texture_filter = 1
+texture = ExtResource("9_81rtx")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "belt",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Torso/Backpack/BackpackBelt/BackpackBeltAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": true
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="BackpackBeltAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackBelt"]
+libraries = {
+"": SubResource("AnimationLibrary_b2dc7")
+}
+
+[node name="JonAnim" type="AnimationPlayer" parent="JonSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_mmq3v")
+}
+autoplay = "idle"
