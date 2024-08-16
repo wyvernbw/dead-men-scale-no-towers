@@ -35,4 +35,3 @@ func update(delta: float) -> void:
 	owner.move_and_slide() # integrate position by velocity
 	var xd = (owner.position - xp) / delta
 	owner.velocity += delta * (x + k3 * xd - owner.position - k1 * owner.velocity) / k2
-	print(owner.position)

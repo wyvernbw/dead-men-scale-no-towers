@@ -280,9 +280,10 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(20, 24)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("dynamics")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("move_dynamics", "gravity_dynamics")]
 script = ExtResource("1_hssag")
-dynamics = NodePath("Dynamics")
+move_dynamics = NodePath("MoveDyanmics")
+gravity_dynamics = NodePath("GravityDyanmics")
 
 [node name="JonSprite" type="Node2D" parent="."]
 
@@ -554,11 +555,17 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="Dynamics" type="Node" parent="."]
+[node name="MoveDyanmics" type="Node" parent="."]
 script = ExtResource("11_kmfom")
 frequency = 2.0
 damping = 1.3
-initial_response = 1.0
+initial_response = 0.8
+
+[node name="GravityDyanmics" type="Node" parent="."]
+script = ExtResource("11_kmfom")
+frequency = 3.0
+damping = 0.8
+initial_response = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
