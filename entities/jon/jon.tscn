@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=23 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
+[ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
 [ext_resource type="Texture2D" uid="uid://cehhhqp6p8g3w" path="res://entities/jon/assets/jon_torso.png" id="2_65ey6"]
 [ext_resource type="Texture2D" uid="uid://rumuestng7wh" path="res://entities/jon/assets/jon_leftarm.png" id="3_2vd3e"]
 [ext_resource type="Texture2D" uid="uid://8f1pdaerpv67" path="res://entities/jon/assets/jon_rightarm.png" id="4_vtnu8"]
@@ -9,11 +10,27 @@
 [ext_resource type="Texture2D" uid="uid://crcqsx3t43pyo" path="res://entities/jon/assets/jon_face.png" id="6_wdgd4"]
 [ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="8_f0gdn"]
 [ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
+[ext_resource type="Script" path="res://components/dynamics.gd" id="11_kmfom"]
+
+[sub_resource type="Animation" id="Animation_nxy77"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
 
 [sub_resource type="Animation" id="Animation_jvs81"]
 resource_name = "blink"
-length = 0.3
-loop_mode = 1
+length = 0.4
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -33,10 +50,10 @@ tracks/1/path = NodePath(".:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = false
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2]
+"values": [0, 1, 2, 0]
 }
 
 [sub_resource type="Animation" id="Animation_xk73p"]
@@ -98,21 +115,6 @@ tracks/1/keys = {
 "values": [0, 1, 2, 0]
 }
 
-[sub_resource type="Animation" id="Animation_nxy77"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
 _data = {
 "RESET": SubResource("Animation_nxy77"),
@@ -152,70 +154,6 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b2dc7"]
 _data = {
 "default": SubResource("Animation_rrbfn")
-}
-
-[sub_resource type="Animation" id="Animation_ilu5l"]
-resource_name = "idle"
-length = 1.2
-loop_mode = 1
-step = 0.1
-tracks/0/type = "animation"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Torso/Head/Face/FaceAnim")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": PackedStringArray("idle"),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Torso:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Torso/Head:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Torso/Backpack/BackpackSprite:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(0, -1), Vector2(0, -1), Vector2(0, 0)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Torso/Backpack:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_x6gh0"]
@@ -269,13 +207,82 @@ tracks/3/keys = {
 "values": [Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_ilu5l"]
+resource_name = "idle"
+length = 1.2
+loop_mode = 1
+step = 0.1
+tracks/0/type = "animation"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Torso/Head/Face/FaceAnim")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": PackedStringArray("blink"),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Torso:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Torso/Head:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Torso/Backpack/BackpackSprite:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, -1), Vector2(0, -1), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Torso/Backpack:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mmq3v"]
 _data = {
 "RESET": SubResource("Animation_x6gh0"),
 "idle": SubResource("Animation_ilu5l")
 }
 
-[node name="Jon" type="CharacterBody2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
+size = Vector2(20, 24)
+
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("dynamics")]
+script = ExtResource("1_hssag")
+dynamics = NodePath("Dynamics")
 
 [node name="JonSprite" type="Node2D" parent="."]
 
@@ -546,3 +553,13 @@ libraries = {
 "": SubResource("AnimationLibrary_mmq3v")
 }
 autoplay = "idle"
+
+[node name="Dynamics" type="Node" parent="."]
+script = ExtResource("11_kmfom")
+frequency = 2.0
+damping = 1.3
+initial_response = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_kictg")
