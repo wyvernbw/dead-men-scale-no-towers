@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://doeqxwug3v7d2"]
+
+[ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
+
+[sub_resource type="Animation" id="Animation_dos6n"]
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 0, 0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
+_data = {
+"default": SubResource("Animation_dos6n")
+}
+
+[node name="Jon" type="CharacterBody2D"]
+
+[node name="JonSprite" type="Node2D" parent="."]
+
+[node name="Legs" type="Sprite2D" parent="JonSprite"]
+texture_filter = 1
+texture = ExtResource("1_hooed")
+metadata/_aseprite_wizard_config_ = {
+"i_mode": -1,
+"keep_anim_length": false,
+"layer": "legs",
+"o_ex_p": "",
+"o_folder": "res://entities/jon/assets",
+"o_name": "jon_",
+"only_visible": false,
+"player": "JonSprite/Legs/LegsAnim",
+"slice": "",
+"source": "res://entities/jon/assets/jon.aseprite"
+}
+metadata/_aseprite_wizard_interface_config_ = {
+"animation_section": false,
+"layer_section": true,
+"output_section": true,
+"slice_section": false
+}
+metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+
+[node name="LegsAnim" type="AnimationPlayer" parent="JonSprite/Legs"]
+libraries = {
+"": SubResource("AnimationLibrary_22jr5")
+}
