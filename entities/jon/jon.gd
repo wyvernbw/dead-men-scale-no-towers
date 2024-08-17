@@ -302,6 +302,7 @@ class WallJump:
 @export var floor_raycast: RayCast2D
 @export var wall_raycasts: Node2D
 @export var rope: Rope
+@export var collectibles_detector: CollectibleDetector
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -331,7 +332,7 @@ var pitons := 1
 var current_piton = Maybe.new()
 
 func _ready() -> void:
-	pass
+	collectibles_detector.collected.connect(on_collected)
 
 func _unhandled_input(event: InputEvent) -> void:
 	move_state.input(event)
@@ -419,3 +420,9 @@ func constrain_position_on_piton() -> void:
 			var piton_to_player = self.global_position - piton.global_position
 			var target = piton.global_position + piton_to_player.limit_length(Piton.ROPE_LENGTH)
 			self.global_position = target
+
+func on_collected(collectible: Area2D):
+	if collectible is PitonGem:
+		if pitons == 0:
+			collectible.collectible.collect_received.emit()
+			pitons = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=48 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
 [ext_resource type="Script" path="res://components/movable.gd" id="11_f1ov4"]
 [ext_resource type="PackedScene" uid="uid://de505ot6unmrs" path="res://entities/rope/rope.tscn" id="12_qymx8"]
+[ext_resource type="Script" path="res://components/collectibles_detector.gd" id="13_82xhg"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -741,7 +742,10 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts", "rope")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwfd7"]
+size = Vector2(28, 35)
+
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts", "rope", "collectibles_detector")]
 collision_mask = 2
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
@@ -751,6 +755,7 @@ sprites_node = NodePath("JonSprite")
 floor_raycast = NodePath("FloorRaycast")
 wall_raycasts = NodePath("WallRaycasts")
 rope = NodePath("Rope")
+collectibles_detector = NodePath("CollectiblesDetector")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1091,3 +1096,13 @@ position = Vector2(2, 7)
 
 [node name="PitonSpawn" type="Node2D" parent="."]
 position = Vector2(0, 5)
+
+[node name="CollectiblesDetector" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("13_82xhg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectiblesDetector"]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_xwfd7")
+debug_color = Color(0.505064, 0.574432, 1.92523e-07, 0)

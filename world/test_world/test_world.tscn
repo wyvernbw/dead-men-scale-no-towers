@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm03hqdjrnrpy"]
+[gd_scene load_steps=6 format=3 uid="uid://cm03hqdjrnrpy"]
 
 [ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="1_jk6t4"]
+[ext_resource type="PackedScene" uid="uid://d1jg1mi7h4hle" path="res://entities/piton_gem/piton_gem.tscn" id="2_ovxoy"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bag4h"]
 distance = -256.0
@@ -40,4 +41,7 @@ shape = SubResource("RectangleShape2D_g035w")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Jon" parent="." instance=ExtResource("1_jk6t4")]
-position = Vector2(160, 160)
+position = Vector2(144, 160)
+
+[node name="PitonGem" parent="." instance=ExtResource("2_ovxoy")]
+position = Vector2(224, 112)

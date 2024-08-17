@@ -21,7 +21,8 @@ shader_parameter/wind_tex = SubResource("NoiseTexture2D_dj050")
 size = Vector2(4, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ichdh"]
-size = Vector2(8, 14)
+custom_solver_bias = 0.28
+size = Vector2(6, 8)
 
 [node name="Piton" type="CharacterBody2D"]
 collision_layer = 4
@@ -34,6 +35,7 @@ accel = 10240.0
 texture = ExtResource("1_6ysnw")
 
 [node name="PinJoint2D" type="PinJoint2D" parent="PitonSprite"]
+visible = false
 position = Vector2(0, -3)
 node_a = NodePath("../..")
 node_b = NodePath("../RigidBody2D")
@@ -52,9 +54,10 @@ rotation = -3.14086
 texture = ExtResource("2_rwxc0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PitonSprite/RigidBody2D"]
+visible = false
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_tgbj5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
+position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_ichdh")
