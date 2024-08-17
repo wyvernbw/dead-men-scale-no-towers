@@ -1088,3 +1088,6 @@ collision_mask = 2
 visible = false
 z_index = -1
 position = Vector2(2, 7)
+
+[node name="PitonSpawn" type="Node2D" parent="."]
+position = Vector2(0, 5)

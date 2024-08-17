@@ -6,7 +6,7 @@ const PITON = preload("res://entities/piton/piton.tscn")
 class MoveState:
 	extends Wisp.State
 
-	func get_x_move_dir() -> float:
+	static func get_x_move_dir() -> float:
 		return Input.get_axis("move_left", "move_right")
 
 class Idle:
@@ -258,6 +258,8 @@ class WallJump:
 
 	var elapsed = 0.0
 	var axis: float = 0.0
+	var h_mod: float = 1.0
+	var v_mod: float = 1.0
 
 	func name() -> String:
 		return "JumpState::WallJump"
@@ -275,9 +277,12 @@ class WallJump:
 		elapsed += delta
 		jon.anim_state.travel("jump")
 		# counter act gravity
-		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed
+		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed * Vector2(h_mod, v_mod)
 		if jon.is_on_ceiling():
 			return Fall.new()
+		if MoveState.get_x_move_dir() == -sign(jon.velocity.x):
+			h_mod = 0.3
+			v_mod = 0.8
 		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
 			return Fall.new()
 		if elapsed > jon.max_jump_time:
@@ -341,7 +346,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var angle = Vector2.DOWN.angle_to(dir)
 		var piton = PITON.instantiate()
 		piton.rotation = angle
-		piton.global_position = self.global_position
+		piton.global_position = $PitonSpawn.global_position
 		pitons -= 1
 		add_sibling(piton)
 		await piton.hit

@@ -25,9 +25,10 @@ shapes/collision/shape_color=Color(0, 0.595, 0.7, 0)
 
 [display]
 
-window/size/viewport_width=320
-window/size/viewport_height=288
+window/size/viewport_width=640
+window/size/viewport_height=360
 window/stretch/mode="viewport"
+window/stretch/aspect="expand"
 window/stretch/scale_mode="integer"
 
 [editor_plugins]
