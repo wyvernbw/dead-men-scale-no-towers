@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=21 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://crcqsx3t43pyo" path="res://entities/jon/assets/jon_face.png" id="6_wdgd4"]
 [ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="8_f0gdn"]
 [ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
+[ext_resource type="Script" path="res://components/movable.gd" id="11_f1ov4"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -496,3 +497,6 @@ autoplay = "idle"
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_kictg")
 debug_color = Color(0, 0.595, 0.7, 0.0509804)
+
+[node name="Movable" type="Node" parent="."]
+script = ExtResource("11_f1ov4")
