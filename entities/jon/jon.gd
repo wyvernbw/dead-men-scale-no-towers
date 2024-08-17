@@ -46,6 +46,8 @@ class Moving:
 	func physics_process(jon: Jon, delta: float) -> MoveState:
 		if jon.is_grounded():
 			jon.anim_state.travel("run")
+		if not jon.is_grounded() and jon.on_wall():
+			return WallSlide.new()
 		var dir = get_x_move_dir()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
 		jon.velocity.x += dir * delta * accel
@@ -55,6 +57,57 @@ class Moving:
 		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
 		if is_zero_approx(dir):
 			return Idle.new()
+		return self
+
+class WallSlide:
+	extends MoveState
+
+	func enter(jon: Jon) -> MoveState:
+		jon.jump_state.transition(JumpStateWallSlide.new())
+		return self
+
+	func exit(jon: Jon) -> void:
+		jon.movable.gravity_multiplier = 1.0
+
+	func physics_process(jon: Jon, delta: float) -> MoveState:
+		jon.movable.gravity_multiplier = 0.20
+		var dir = get_x_move_dir()
+		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
+		jon.velocity.x += dir * delta * accel
+		# bhop
+		var ms = jon.move_speed if jon.is_grounded() else jon.move_speed * 1.25
+		jon.velocity.x = sign(jon.velocity.x) * min(abs(jon.velocity.x), ms)
+		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
+		if not jon.on_wall():
+			return Moving.new()
+		return self
+
+	func input(jon: Jon, event: InputEvent) -> MoveState:
+		if event.is_action_pressed("wall_grab"):
+			return WallGrab.new()
+		return self
+
+class WallGrab:
+	extends MoveState
+
+	func enter(jon: Jon) -> WallGrab:
+		jon.jump_state.transition(JumpStateWallSlide.new())
+		return self
+
+	func exit(jon: Jon) -> void:
+		jon.movable.use_gravity = true
+
+	func physics_process(jon: Jon, delta: float) -> MoveState:
+		jon.movable.use_gravity = false
+		var climb_dir = Input.get_axis("move_up", "move_down")
+		jon.velocity.y = jon.move_speed / 4.0 * climb_dir
+		if not jon.on_wall():
+			return Moving.new()
+		return self
+
+	func input(jon: Jon, event: InputEvent) -> MoveState:
+		if event.is_action_released("wall_grab"):
+			return WallSlide.new()
 		return self
 
 class JumpState:
@@ -103,6 +156,8 @@ class Jump:
 		jon.anim_state.travel("jump")
 		# counter act gravity
 		jon.velocity.y = -jon.jump_speed
+		if jon.is_on_ceiling():
+			return Fall.new()
 		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
 			return Fall.new()
 		if elapsed > jon.max_jump_time:
@@ -117,13 +172,67 @@ class Fall:
 
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		jon.anim_state.travel("fall")
+		if jon.on_wall():
+			return JumpStateWallSlide.new()
 		if jon.velocity.y == Movable.MAX_FALL:
 			jon.squish_anim.play("hsquish")
 		if jon.is_grounded():
 			jon.anim_state.travel("land")
 			return NoJump.new()
 		return self
+
+class JumpStateWallSlide:
+	extends JumpState
+
+	signal fell_off
+
+	func name() -> String:
+		return "JumpState::JumpStateWallSlide"
+
+	func enter(jon: Jon) -> JumpState:
+		match await Async.select([jon.jump_input, self.fell_off]):
+			{ 0: _ }:
+				return WallJump.new()
+			{ 1: _ }:
+				await jon.get_tree().create_timer(0.25, false).timeout
+				return Fall.new()
+		return await self.enter(jon)
+
+	func process(jon: Jon, _delta: float) -> JumpState:
+		if not jon.is_grounded() and not jon.on_wall():
+			fell_off.emit()
+		return self
 		
+class WallJump:
+	extends JumpState
+
+	var elapsed = 0.0
+	var axis: float = 0.0
+
+	func name() -> String:
+		return "JumpState::WallJump"
+
+	func enter(jon: Jon) -> JumpState:
+		Tracer.info("jumped!")
+		elapsed = 0.0
+		axis = jon.wall_axis()
+		jon.squish_anim.play("hsquish")
+		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
+		jon.squish_anim.play("hunsquish")
+		return self
+
+	func physics_process(jon: Jon, delta: float) -> JumpState:
+		elapsed += delta
+		jon.anim_state.travel("jump")
+		# counter act gravity
+		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed
+		if jon.is_on_ceiling():
+			return Fall.new()
+		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
+			return Fall.new()
+		if elapsed > jon.max_jump_time:
+			return Fall.new()
+		return self
 
 @onready var anim_tree = get_node("AnimationTree")
 @onready var anim_state = anim_tree.get("parameters/playback")
@@ -136,6 +245,7 @@ class Fall:
 @export var squish_anim: AnimationPlayer
 @export var sprites_node: Node2D
 @export var floor_raycast: RayCast2D
+@export var wall_raycasts: Node2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -168,7 +278,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	jump_state.input(event)
 	InputUtils.actions_pressed(inputs, event)
 	InputUtils.actions_released(releases, event)
-	Tracer.info(move_state.current_state.name())
+	# Tracer.info(move_state.current_state.name())
 
 func _process(delta: float) -> void:
 	move_state.process(delta)
@@ -191,3 +301,19 @@ func look_at_velocity() -> void:
 
 func is_grounded() -> bool:
 	return floor_raycast.is_colliding()
+
+func wall_axis() -> float:
+	var left = wall_raycasts.get_node("Left")	
+	var right = wall_raycasts.get_node("Right")	
+	var check = func(node: Node): 
+		return float(
+			node
+				.get_children()
+				.map(func(el): return el as RayCast2D)
+				.filter(func(el): return el)
+				.reduce(func(acc, el): return acc or el.is_colliding(), false)
+		)
+	return check.call(right) - check.call(left)
+
+func on_wall() -> bool:
+	return wall_axis() != 0.0

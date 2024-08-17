@@ -594,7 +594,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
-size = Vector2(20, 24)
+size = Vector2(12, 22)
 
 [sub_resource type="Animation" id="Animation_g26yr"]
 length = 0.001
@@ -740,13 +740,14 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts")]
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
 anim_player = NodePath("JonSprite/JonAnim")
 squish_anim = NodePath("Squish")
 sprites_node = NodePath("JonSprite")
 floor_raycast = NodePath("FloorRaycast")
+wall_raycasts = NodePath("WallRaycasts")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1032,7 +1033,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_kictg")
 debug_color = Color(0, 0.595, 0.7, 0.0509804)
 
@@ -1053,3 +1054,23 @@ anim_player = NodePath("../JonSprite/JonAnim")
 [node name="FloorRaycast" type="RayCast2D" parent="."]
 position = Vector2(0, 16)
 target_position = Vector2(0, 12)
+
+[node name="WallRaycasts" type="Node2D" parent="."]
+
+[node name="Right" type="Node2D" parent="WallRaycasts"]
+
+[node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Right"]
+position = Vector2(0, 11)
+target_position = Vector2(16, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Right"]
+target_position = Vector2(16, 0)
+
+[node name="Left" type="Node2D" parent="WallRaycasts"]
+
+[node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Left"]
+position = Vector2(0, 11)
+target_position = Vector2(-16, 0)
+
+[node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Left"]
+target_position = Vector2(-16, 0)
