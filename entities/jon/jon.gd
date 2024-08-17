@@ -44,13 +44,13 @@ class Moving:
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
-		if jon.is_on_floor():
+		if jon.is_grounded():
 			jon.anim_state.travel("run")
 		var dir = get_x_move_dir()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
 		jon.velocity.x += dir * delta * accel
 		# bhop
-		var ms = jon.move_speed if jon.is_on_floor() else jon.move_speed * 1.25
+		var ms = jon.move_speed if jon.is_grounded() else jon.move_speed * 1.25
 		jon.velocity.x = sign(jon.velocity.x) * min(abs(jon.velocity.x), ms)
 		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
 		if is_zero_approx(dir):
@@ -109,7 +109,7 @@ class Fall:
 		jon.anim_state.travel("fall")
 		if jon.velocity.y == Movable.MAX_FALL:
 			jon.squish_anim.play("hsquish")
-		if jon.is_on_floor():
+		if jon.is_grounded():
 			jon.anim_state.travel("land")
 			return NoJump.new()
 		return self
@@ -125,6 +125,7 @@ class Fall:
 @export var anim_player: AnimationPlayer
 @export var squish_anim: AnimationPlayer
 @export var sprites_node: Node2D
+@export var floor_raycast: RayCast2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -178,3 +179,5 @@ func look(x: float) -> void:
 func look_at_velocity() -> void:
 	look(velocity.x)
 
+func is_grounded() -> bool:
+	return floor_raycast.is_colliding()

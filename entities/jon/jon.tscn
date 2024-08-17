@@ -740,12 +740,13 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast")]
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
 anim_player = NodePath("JonSprite/JonAnim")
 squish_anim = NodePath("Squish")
 sprites_node = NodePath("JonSprite")
+floor_raycast = NodePath("FloorRaycast")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1048,3 +1049,7 @@ root_node = NodePath("../JonSprite")
 callback_mode_discrete = 0
 tree_root = SubResource("AnimationNodeStateMachine_w6d66")
 anim_player = NodePath("../JonSprite/JonAnim")
+
+[node name="FloorRaycast" type="RayCast2D" parent="."]
+position = Vector2(0, 16)
+target_position = Vector2(0, 12)
