@@ -755,6 +755,7 @@ min_jump_time = 0.063
 acceleration = 768.0
 deacceleration = 768.0
 move_speed = 128.0
+rappel_damping = 0.99
 
 [node name="JonSprite" type="Node2D" parent="."]
 
