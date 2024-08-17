@@ -63,14 +63,24 @@ class JumpState:
 class NoJump: 
 	extends JumpState
 
+	signal fell_off
+
 	func name() -> String:
 		return "JumpState::NoJump"
 
 	func enter(jon: Jon) -> JumpState:
-		match await Async.select([jon.jump_input]):
+		match await Async.select([jon.jump_input, self.fell_off]):
 			{ 0: _ }:
 				return Jump.new()
+			{ 1: _ }:
+				await jon.get_tree().create_timer(0.25, false).timeout
+				return Fall.new()
 		return await self.enter(jon)
+
+	func process(jon: Jon, _delta: float) -> JumpState:
+		if not jon.is_grounded():
+			fell_off.emit()
+		return self
 
 class Jump:
 	extends JumpState
