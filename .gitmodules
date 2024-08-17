@@ -4,3 +4,6 @@
 [submodule "share/maybe"]
 	path = share/maybe
 	url = git@github.com:wyvernbw/gd-maybe.git
+[submodule "share/tracer"]
+	path = share/tracer
+	url = git@github.com:wyvernbw/tracer.gd.git
