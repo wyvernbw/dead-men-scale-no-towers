@@ -79,6 +79,7 @@ class WallSlide:
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
 		jon.movable.gravity_multiplier = 0.20
+		jon.constrain_position_on_piton()
 		var dir = get_x_move_dir()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
 		jon.velocity.x += dir * delta * accel
@@ -108,7 +109,9 @@ class WallGrab:
 	func physics_process(jon: Jon, delta: float) -> MoveState:
 		jon.movable.use_gravity = false
 		var climb_dir = Input.get_axis("move_up", "move_down")
+		jon.constrain_position_on_piton()
 		jon.velocity.y = jon.move_speed / 4.0 * climb_dir
+		jon.velocity.x = 0.0
 		if not jon.on_wall():
 			return Moving.new()
 		return self
@@ -123,12 +126,16 @@ class Rappel:
 
 	func exit(jon: Jon) -> void:
 		jon.create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD).tween_property(
-			jon.sprites_node, "rotation", 0.0, 0.5, 
-		)
+			jon.sprites_node, "rotation", -jon.sprites_node.rotation, 0.5, 
+		).as_relative()
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
+		if not jon.jump_state.current_state is Fall:
+			return Idle.new()
 		if jon.is_grounded():
 			return Idle.new()
+		if jon.is_on_wall():
+			return WallSlide.new()
 		match jon.current_piton.expr():
 			"None":
 				return Moving.new()
@@ -136,7 +143,7 @@ class Rappel:
 				jon.sprites_node.rotation = (
 					jon.global_position.direction_to(
 						piton.global_position
-					).angle_to(Vector2.RIGHT)
+					).angle_to(Vector2.RIGHT if jon.velocity.x > 0.0 else Vector2.LEFT)
 				)
 				var dir = get_x_move_dir()
 				var accel = jon.acceleration * 0.5
