@@ -219,8 +219,11 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(20, 24)
 
-[node name="Jon" type="CharacterBody2D"]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable")]
 script = ExtResource("1_hssag")
+movable = NodePath("Movable")
+jump_speed = 210.0
+max_jump_time = 0.25
 
 [node name="JonSprite" type="Node2D" parent="."]
 

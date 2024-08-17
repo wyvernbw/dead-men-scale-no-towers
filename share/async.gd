@@ -51,6 +51,7 @@ class Selector:
 					signal_map[idx].value = return_value
 					finished.emit()
 			)
+			future.run()
 		await self.finished
 		for branch in signal_map.keys():
 			if signal_map[branch].finished:

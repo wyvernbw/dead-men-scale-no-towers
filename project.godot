@@ -14,6 +14,11 @@ config/name="dead-men-scale-no-towers"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Events="*res://share/events.gd"
+Tracer="*res://addons/tracer/./tracer.gd"
+
 [debug]
 
 shapes/collision/shape_color=Color(0, 0.595, 0.7, 0)
@@ -27,7 +32,7 @@ window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/tracer/plugin.cfg")
 
 [file_customization]
 
