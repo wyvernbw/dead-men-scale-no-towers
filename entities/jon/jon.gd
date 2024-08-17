@@ -348,6 +348,8 @@ func _physics_process(delta: float) -> void:
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
 	movable.update(delta)
+	if is_grounded():
+		pitons = 1
 	if not is_zero_approx(velocity.x):
 		look_direction = sign(velocity.x)
 	match current_piton.expr():

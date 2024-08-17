@@ -5,12 +5,11 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_bag4h"]
 distance = -256.0
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_13dfh"]
-normal = Vector2(0, 1)
-distance = -256.0
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ydy5"]
 size = Vector2(32, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g035w"]
+size = Vector2(32, 32)
 
 [node name="TestWorld" type="Node2D"]
 
@@ -22,15 +21,6 @@ position = Vector2(160, 0)
 shape = SubResource("WorldBoundaryShape2D_bag4h")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
-position = Vector2(0, -128)
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2(160, 480)
-shape = SubResource("WorldBoundaryShape2D_13dfh")
-debug_color = Color(0, 0.6, 0.7, 0.42)
-
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(256, 128)
 collision_layer = 2
@@ -38,6 +28,15 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(16, 48)
 shape = SubResource("RectangleShape2D_5ydy5")
+debug_color = Color(0, 0.6, 0.7, 0.42)
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(128, 64)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_g035w")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Jon" parent="." instance=ExtResource("1_jk6t4")]
