@@ -372,7 +372,8 @@ func _physics_process(delta: float) -> void:
 			var accel = Movable.GRAVITY * sin(theta)
 			velocity += accel * motion_dir * delta
 			if piton_to_player.length() > Piton.ROPE_LENGTH:
-				velocity = velocity.project(motion_dir)
+				var difference = piton_to_player.length() - Piton.ROPE_LENGTH
+				velocity = velocity.project(motion_dir) - piton_to_player.normalized() * difference
 			velocity *= rappel_damping
 			rope.visible = true
 			rope.extend_to(piton.global_position - self.global_position)

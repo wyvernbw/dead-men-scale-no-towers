@@ -15,5 +15,5 @@ func update(delta: float) -> void:
 	if use_gravity:
 		if not owner.is_on_floor():
 			owner.velocity.y = min(owner.velocity.y + GRAVITY * delta, MAX_FALL * gravity_multiplier)
-	owner.velocity = round(owner.velocity)
+	# owner.velocity = round(owner.velocity)
 	owner.move_and_slide()
