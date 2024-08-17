@@ -741,6 +741,7 @@ transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition
 graph_offset = Vector2(-9, -31)
 
 [node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts")]
+collision_mask = 2
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
 anim_player = NodePath("JonSprite/JonAnim")
@@ -1054,6 +1055,7 @@ anim_player = NodePath("../JonSprite/JonAnim")
 [node name="FloorRaycast" type="RayCast2D" parent="."]
 position = Vector2(0, 16)
 target_position = Vector2(0, 12)
+collision_mask = 2
 
 [node name="WallRaycasts" type="Node2D" parent="."]
 
@@ -1062,15 +1064,19 @@ target_position = Vector2(0, 12)
 [node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Right"]
 position = Vector2(0, 11)
 target_position = Vector2(16, 0)
+collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Right"]
 target_position = Vector2(16, 0)
+collision_mask = 2
 
 [node name="Left" type="Node2D" parent="WallRaycasts"]
 
 [node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Left"]
 position = Vector2(0, 11)
 target_position = Vector2(-16, 0)
+collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Left"]
 target_position = Vector2(-16, 0)
+collision_mask = 2

@@ -11,6 +11,7 @@ size = Vector2(32, 96)
 [node name="TestWorld" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(160, 0)
@@ -19,6 +20,7 @@ debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(256, 128)
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(16, 48)

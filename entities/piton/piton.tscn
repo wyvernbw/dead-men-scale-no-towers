@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://ciaeepbh8v78t"]
+
+[ext_resource type="Texture2D" uid="uid://cyb475guf3dcg" path="res://entities/piton/assets/piton.png" id="1_6ysnw"]
+[ext_resource type="Script" path="res://entities/piton/piton.gd" id="1_ep55y"]
+[ext_resource type="Texture2D" uid="uid://c7mstp2acxvrf" path="res://entities/piton/assets/piton_flag.png" id="2_rwxc0"]
+[ext_resource type="Shader" path="res://share/assets/wind.gdshader" id="3_hl5qb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2qana"]
+noise_type = 5
+frequency = 0.0013
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dj050"]
+seamless = true
+noise = SubResource("FastNoiseLite_2qana")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bgfe3"]
+shader = ExtResource("3_hl5qb")
+shader_parameter/wind_tex = SubResource("NoiseTexture2D_dj050")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tgbj5"]
+size = Vector2(4, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ichdh"]
+size = Vector2(8, 14)
+
+[node name="Piton" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ep55y")
+max_speed = 1024.0
+accel = 10240.0
+
+[node name="PitonSprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_6ysnw")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="PitonSprite"]
+position = Vector2(0, -3)
+node_a = NodePath("../..")
+node_b = NodePath("../RigidBody2D")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="PitonSprite"]
+position = Vector2(0, -3)
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.07
+angular_damp = 14.068
+
+[node name="PitonFlag" type="Sprite2D" parent="PitonSprite/RigidBody2D"]
+material = SubResource("ShaderMaterial_bgfe3")
+position = Vector2(0, -6)
+rotation = -3.14086
+texture = ExtResource("2_rwxc0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PitonSprite/RigidBody2D"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_tgbj5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_ichdh")

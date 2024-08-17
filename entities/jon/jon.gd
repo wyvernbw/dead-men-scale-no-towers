@@ -1,6 +1,8 @@
 class_name Jon
 extends CharacterBody2D
 
+const PITON = preload("res://entities/piton/piton.tscn")
+
 class MoveState:
 	extends Wisp.State
 
@@ -278,6 +280,16 @@ func _unhandled_input(event: InputEvent) -> void:
 	jump_state.input(event)
 	InputUtils.actions_pressed(inputs, event)
 	InputUtils.actions_released(releases, event)
+
+	if event.is_action_pressed("piton"):
+		var dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		if dir.x == 0.0:
+			dir.x = look_direction
+		var angle = Vector2.DOWN.angle_to(dir)
+		var piton = PITON.instantiate()
+		piton.rotation = angle
+		piton.global_position = self.global_position
+		add_sibling(piton)
 	# Tracer.info(move_state.current_state.name())
 
 func _process(delta: float) -> void:
