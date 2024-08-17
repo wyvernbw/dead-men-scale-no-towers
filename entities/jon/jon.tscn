@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=26 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -145,6 +145,42 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Torso/Head/Face:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_ilu5l"]
 resource_name = "idle"
@@ -210,24 +246,163 @@ tracks/4/keys = {
 "values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_nynmm"]
+resource_name = "land"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Torso/Head/Face:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(0.105112, 1.10957, 0.5),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 0.8), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(0.105112, 1.10957, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 3), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mmq3v"]
 _data = {
 "RESET": SubResource("Animation_x6gh0"),
-"idle": SubResource("Animation_ilu5l")
+"idle": SubResource("Animation_ilu5l"),
+"land": SubResource("Animation_nynmm")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(20, 24)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable")]
+[sub_resource type="Animation" id="Animation_g26yr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JonSprite:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_wjfn1"]
+resource_name = "hsquish"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.8, 1.3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JonSprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -5)]
+}
+
+[sub_resource type="Animation" id="Animation_yttqt"]
+resource_name = "hunsquish"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(0.8, 1.3), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("JonSprite:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(0, -5), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a3mvn"]
+_data = {
+"RESET": SubResource("Animation_g26yr"),
+"hsquish": SubResource("Animation_wjfn1"),
+"hunsquish": SubResource("Animation_yttqt")
+}
+
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim")]
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
-jump_speed = 210.0
-max_jump_time = 0.25
+anim_player = NodePath("JonSprite/JonAnim")
+squish_anim = NodePath("Squish")
+jump_speed = 196.0
+max_jump_time = 0.2
+min_jump_time = 0.063
+acceleration = 768.0
+deacceleration = 768.0
+move_speed = 128.0
 
 [node name="JonSprite" type="Node2D" parent="."]
 
-[node name="Legs" type="Sprite2D" parent="JonSprite"]
+[node name="Legs" type="Sprite2D" parent="JonSprite" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("1_hooed")
 metadata/_aseprite_wizard_config_ = {
@@ -255,7 +430,7 @@ libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Torso" type="Sprite2D" parent="JonSprite"]
+[node name="Torso" type="Sprite2D" parent="JonSprite" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("2_65ey6")
 metadata/_aseprite_wizard_config_ = {
@@ -285,7 +460,7 @@ libraries = {
 
 [node name="Arms" type="Node2D" parent="JonSprite/Torso"]
 
-[node name="LeftArm" type="Sprite2D" parent="JonSprite/Torso/Arms"]
+[node name="LeftArm" type="Sprite2D" parent="JonSprite/Torso/Arms" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("3_2vd3e")
 metadata/_aseprite_wizard_config_ = {
@@ -313,7 +488,7 @@ libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="RightArm" type="Sprite2D" parent="JonSprite/Torso/Arms"]
+[node name="RightArm" type="Sprite2D" parent="JonSprite/Torso/Arms" groups=["jon_sprite"]]
 z_index = -1
 texture_filter = 1
 texture = ExtResource("4_vtnu8")
@@ -342,7 +517,7 @@ libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Head" type="Sprite2D" parent="JonSprite/Torso"]
+[node name="Head" type="Sprite2D" parent="JonSprite/Torso" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("5_ifitq")
 metadata/_aseprite_wizard_config_ = {
@@ -370,12 +545,11 @@ libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Face" type="Sprite2D" parent="JonSprite/Torso/Head"]
+[node name="Face" type="Sprite2D" parent="JonSprite/Torso/Head" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("6_wdgd4")
 hframes = 2
 vframes = 2
-frame = 2
 metadata/_aseprite_wizard_config_ = {
 "i_mode": -1,
 "keep_anim_length": false,
@@ -401,7 +575,7 @@ libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Cloak" type="Sprite2D" parent="JonSprite/Torso"]
+[node name="Cloak" type="Sprite2D" parent="JonSprite/Torso" groups=["jon_sprite"]]
 visible = false
 texture_filter = 1
 texture = ExtResource("5_8hv4d")
@@ -432,7 +606,7 @@ libraries = {
 
 [node name="Backpack" type="Node2D" parent="JonSprite/Torso"]
 
-[node name="BackpackSprite" type="Sprite2D" parent="JonSprite/Torso/Backpack"]
+[node name="BackpackSprite" type="Sprite2D" parent="JonSprite/Torso/Backpack" groups=["jon_sprite"]]
 z_index = -1
 texture_filter = 1
 texture = ExtResource("8_f0gdn")
@@ -461,7 +635,7 @@ libraries = {
 "": SubResource("AnimationLibrary_b2dc7")
 }
 
-[node name="BackpackBelt" type="Sprite2D" parent="JonSprite/Torso/Backpack"]
+[node name="BackpackBelt" type="Sprite2D" parent="JonSprite/Torso/Backpack" groups=["jon_sprite"]]
 z_index = 1
 texture_filter = 1
 texture = ExtResource("9_81rtx")
@@ -503,3 +677,8 @@ debug_color = Color(0, 0.595, 0.7, 0.0509804)
 
 [node name="Movable" type="Node" parent="."]
 script = ExtResource("11_f1ov4")
+
+[node name="Squish" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a3mvn")
+}
