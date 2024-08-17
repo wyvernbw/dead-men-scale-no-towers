@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=46 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="8_f0gdn"]
 [ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
 [ext_resource type="Script" path="res://components/movable.gd" id="11_f1ov4"]
+[ext_resource type="PackedScene" uid="uid://de505ot6unmrs" path="res://entities/rope/rope.tscn" id="12_qymx8"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -740,7 +741,7 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts", "rope")]
 collision_mask = 2
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
@@ -749,6 +750,7 @@ squish_anim = NodePath("Squish")
 sprites_node = NodePath("JonSprite")
 floor_raycast = NodePath("FloorRaycast")
 wall_raycasts = NodePath("WallRaycasts")
+rope = NodePath("Rope")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1081,3 +1083,8 @@ collision_mask = 2
 [node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Left"]
 target_position = Vector2(-16, 0)
 collision_mask = 2
+
+[node name="Rope" parent="." instance=ExtResource("12_qymx8")]
+visible = false
+z_index = -1
+position = Vector2(2, 7)

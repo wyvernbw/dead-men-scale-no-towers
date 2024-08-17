@@ -296,6 +296,7 @@ class WallJump:
 @export var sprites_node: Node2D
 @export var floor_raycast: RayCast2D
 @export var wall_raycasts: Node2D
+@export var rope: Rope
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -362,6 +363,7 @@ func _physics_process(delta: float) -> void:
 	match current_piton.expr():
 		"None":
 			movable.use_gravity = true
+			rope.visible = false
 		{ "Some": var piton }:
 			movable.use_gravity = false
 			var piton_to_player = self.global_position - piton.global_position
@@ -372,6 +374,8 @@ func _physics_process(delta: float) -> void:
 			if piton_to_player.length() > Piton.ROPE_LENGTH:
 				velocity = velocity.project(motion_dir)
 			velocity *= rappel_damping
+			rope.visible = true
+			rope.extend_to(piton.global_position - self.global_position)
 
 	look(look_direction)
 
