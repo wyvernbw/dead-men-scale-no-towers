@@ -15,3 +15,4 @@ position = Vector2(160, 160)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(160, 0)
 shape = SubResource("WorldBoundaryShape2D_bag4h")
+debug_color = Color(0, 0.6, 0.7, 0.42)

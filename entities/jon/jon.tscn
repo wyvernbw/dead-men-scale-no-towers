@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=20 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://crcqsx3t43pyo" path="res://entities/jon/assets/jon_face.png" id="6_wdgd4"]
 [ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="8_f0gdn"]
 [ext_resource type="Texture2D" uid="uid://dmgewlnttncei" path="res://entities/jon/assets/jon_belt.png" id="9_81rtx"]
-[ext_resource type="Script" path="res://components/dynamics.gd" id="11_kmfom"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -27,68 +26,9 @@ tracks/0/keys = {
 "values": [2]
 }
 
-[sub_resource type="Animation" id="Animation_jvs81"]
-resource_name = "blink"
-length = 0.4
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 0]
-}
-
 [sub_resource type="Animation" id="Animation_xk73p"]
 resource_name = "default"
 length = 0.3
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_2frh6"]
-resource_name = "idle"
-length = 4.0
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -118,9 +58,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
 _data = {
 "RESET": SubResource("Animation_nxy77"),
-"blink": SubResource("Animation_jvs81"),
-"default": SubResource("Animation_xk73p"),
-"idle": SubResource("Animation_2frh6")
+"default": SubResource("Animation_xk73p")
 }
 
 [sub_resource type="Animation" id="Animation_rrbfn"]
@@ -219,7 +157,7 @@ tracks/0/path = NodePath("Torso/Head/Face/FaceAnim")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": PackedStringArray("blink"),
+"clips": PackedStringArray("default"),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "value"
@@ -280,10 +218,8 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(20, 24)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("move_dynamics", "gravity_dynamics")]
+[node name="Jon" type="CharacterBody2D"]
 script = ExtResource("1_hssag")
-move_dynamics = NodePath("MoveDyanmics")
-gravity_dynamics = NodePath("GravityDyanmics")
 
 [node name="JonSprite" type="Node2D" parent="."]
 
@@ -308,7 +244,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": false
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
 [node name="LegsAnim" type="AnimationPlayer" parent="JonSprite/Legs"]
 libraries = {
@@ -336,7 +272,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": true
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "317b191153340b540da327818912818a"
 
 [node name="TorsoAnim" type="AnimationPlayer" parent="JonSprite/Torso"]
 libraries = {
@@ -366,7 +302,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": true
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "317b191153340b540da327818912818a"
 
 [node name="LeftArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/LeftArm"]
 libraries = {
@@ -395,7 +331,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": true
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "317b191153340b540da327818912818a"
 
 [node name="RightArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/RightArm"]
 libraries = {
@@ -423,7 +359,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": false
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
 [node name="HeadAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head"]
 libraries = {
@@ -454,7 +390,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": false
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
 [node name="FaceAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head/Face"]
 libraries = {
@@ -462,6 +398,7 @@ libraries = {
 }
 
 [node name="Cloak" type="Sprite2D" parent="JonSprite/Torso"]
+visible = false
 texture_filter = 1
 texture = ExtResource("5_8hv4d")
 metadata/_aseprite_wizard_config_ = {
@@ -513,7 +450,7 @@ metadata/_aseprite_wizard_interface_config_ = {
 "output_section": true,
 "slice_section": true
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
 [node name="BackpackAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackSprite"]
 libraries = {
@@ -537,12 +474,12 @@ metadata/_aseprite_wizard_config_ = {
 "source": "res://entities/jon/assets/jon.aseprite"
 }
 metadata/_aseprite_wizard_interface_config_ = {
-"animation_section": false,
+"animation_section": true,
 "layer_section": true,
 "output_section": true,
 "slice_section": true
 }
-metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
+metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
 [node name="BackpackBeltAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackBelt"]
 libraries = {
@@ -555,18 +492,7 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="MoveDyanmics" type="Node" parent="."]
-script = ExtResource("11_kmfom")
-frequency = 2.0
-damping = 1.3
-initial_response = 0.8
-
-[node name="GravityDyanmics" type="Node" parent="."]
-script = ExtResource("11_kmfom")
-frequency = 3.0
-damping = 0.8
-initial_response = 0.8
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_kictg")
+debug_color = Color(0, 0.595, 0.7, 0.0509804)
