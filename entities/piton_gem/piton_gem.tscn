@@ -126,7 +126,6 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_s81tc"]
 resource_name = "pass_through"
-loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -175,11 +174,14 @@ _data = {
 }
 
 [sub_resource type="Gradient" id="Gradient_2062v"]
+interpolation_mode = 2
 offsets = PackedFloat32Array(0, 0.121857, 0.65764)
-colors = PackedColorArray(1, 1, 0.921569, 1, 0.4, 1, 0.890196, 1, 0, 0, 0, 0)
+colors = PackedColorArray(1, 1, 0.921569, 1, 0.4, 1, 0.890196, 1, 0.4, 1, 0.89, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_quk4m"]
 gradient = SubResource("Gradient_2062v")
+width = 4
+height = 4
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
@@ -223,6 +225,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hxngd"]
+size = Vector2(16, 16)
 
 [node name="PitonGem" type="Area2D" node_paths=PackedStringArray("sprite_anim", "collectible")]
 collision_layer = 0
@@ -234,6 +237,7 @@ collectible = NodePath("Collectible")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_irqs4")
+centered = false
 hframes = 4
 vframes = 4
 metadata/_aseprite_wizard_config_ = {
@@ -260,8 +264,12 @@ libraries = {
 autoplay = "idle"
 
 [node name="PointLight2D" type="PointLight2D" parent="Sprite2D"]
+texture_filter = 1
 position = Vector2(8, 8)
+energy = 2.0
+blend_mode = 2
 texture = SubResource("GradientTexture2D_quk4m")
+texture_scale = 32.0
 
 [node name="Bob" type="AnimationPlayer" parent="."]
 libraries = {
@@ -271,6 +279,7 @@ autoplay = "bob"
 speed_scale = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_hxngd")
 
 [node name="Collectible" type="Node" parent="."]

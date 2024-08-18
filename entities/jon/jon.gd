@@ -26,7 +26,7 @@ class Idle:
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
-		if jon.current_piton.is_some() and not jon.is_grounded():
+		if jon.current_piton.is_some() and not jon.is_on_floor():
 			return Rappel.new()
 		jon.constrain_position_on_piton()
 		jon.velocity = jon.velocity.move_toward(
@@ -140,7 +140,7 @@ class Rappel:
 	func physics_process(jon: Jon, delta: float) -> MoveState:
 		if not jon.jump_state.current_state is Fall:
 			return Idle.new()
-		if jon.is_grounded():
+		if jon.is_on_floor():
 			return Idle.new()
 		if jon.is_on_wall():
 			return WallSlide.new()
@@ -149,13 +149,13 @@ class Rappel:
 				return Moving.new()
 			{ "Some": var piton }:
 				jon.sprites_node.rotation = (
-					jon.global_position.direction_to(
+					jon.pivot.global_position.direction_to(
 						piton.global_position
 					).angle_to(Vector2.RIGHT if jon.velocity.x > 0.0 else Vector2.LEFT)
 				)
 				var dir = get_x_move_dir()
 				var accel = jon.acceleration * 0.5
-				var piton_to_player = jon.global_position - piton.global_position
+				var piton_to_player = jon.pivot.global_position - piton.global_position
 				# var target = piton.global_position + piton_to_player.limit_length(Piton.ROPE_LENGTH)
 				# var theta = Vector2.DOWN.angle_to(piton_to_player.normalized())
 				var motion_dir = piton_to_player.rotated(-PI / 2.0).normalized()
@@ -366,7 +366,7 @@ class ClimbJump:
 @export var anim_player: AnimationPlayer
 @export var squish_anim: AnimationPlayer
 @export var sprites_node: Node2D
-@export var floor_raycast: RayCast2D
+@export var floor_raycasts: Node2D
 @export var wall_raycasts: Node2D
 @export var rope: Rope
 @export var collectibles_detector: CollectibleDetector
@@ -411,18 +411,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	InputUtils.actions_pressed(inputs, event)
 	InputUtils.actions_released(releases, event)
 
-	if event.is_action_pressed("piton") and pitons > 0 and current_piton.is_none():
-		var dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-		if dir.x == 0.0 and dir.y == 0.0:
-			dir.x = look_direction
-		var angle = Vector2.DOWN.angle_to(dir)
-		var piton = PITON.instantiate()
-		piton.rotation = angle
-		piton.global_position = piton_spawn.global_position
-		pitons -= 1
-		add_sibling(piton)
-		await piton.hit
-		current_piton = Maybe.new(piton)
+	if event.is_action_pressed("piton"): 
+		if pitons > 0 and current_piton.is_none():
+			var dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+			if dir.x == 0.0 and dir.y == 0.0:
+				dir.x = look_direction
+			var angle = Vector2.DOWN.angle_to(dir)
+			var piton = PITON.instantiate()
+			piton.rotation = angle
+			piton.global_position = piton_spawn.global_position
+			pitons -= 1
+			add_sibling(piton)
+			await piton.hit
+			current_piton = Maybe.new(piton)
+		elif current_piton.is_some():
+			current_piton = Maybe.new()
 	# Tracer.info(move_state.current_state.name())
 
 func _process(delta: float) -> void:
@@ -433,7 +436,7 @@ func _physics_process(delta: float) -> void:
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
 	movable.update(delta)
-	if is_grounded():
+	if is_on_floor():
 		refill_stamina()
 		pitons = 1
 	if self.stamina <= 0.0:
@@ -471,7 +474,12 @@ func look_at_velocity() -> void:
 	look(velocity.x)
 
 func is_grounded() -> bool:
-	return floor_raycast.is_colliding()
+	return (
+		floor_raycasts.get_children() as Array[RayCast2D]
+	).reduce(
+		func(acc, el: RayCast2D): return acc or el.is_colliding(), 
+		false
+	)
 
 func wall_axis() -> float:
 	var left = wall_raycasts.get_node("Left")	
