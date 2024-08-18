@@ -74,10 +74,10 @@ color = Color(0.99, 0.969375, 0.7425, 0.129412)
 initial_screen = true
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
-position = Vector2(160, 48)
+position = Vector2(16, 80)
 
 [node name="CamScreen1" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
-position = Vector2(160, 48)
+position = Vector2(160, 80)
 script = ExtResource("5_056ad")
 follow_mode = 5
 follow_target = NodePath("../Jon")
@@ -92,7 +92,7 @@ limit_bottom = 180
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-position = Vector2(160, 48)
+position = Vector2(160, 80)
 limit_left = 0
 limit_top = -272
 limit_right = 320

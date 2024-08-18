@@ -1,10 +1,11 @@
-[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://byjjmm6xs8nr8"]
+[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://byjjmm6xs8nr8"]
 
 [ext_resource type="Texture2D" uid="uid://d18ggpe6ifcnn" path="res://world/assets/bricks_1.png" id="1_vymj7"]
 [ext_resource type="Texture2D" uid="uid://dgju38qjmt31u" path="res://world/assets/spikes_1.png" id="2_cs04y"]
 [ext_resource type="Texture2D" uid="uid://bbexc1qvg8gxo" path="res://world/assets/bricks_background_1.png" id="3_yysjm"]
 [ext_resource type="Texture2D" uid="uid://dyliwks5hvcj0" path="res://world/assets/wood_1.png" id="4_t6bpq"]
 [ext_resource type="Texture2D" uid="uid://dnmhfxvarrur2" path="res://world/assets/grass_1.png" id="5_u46yl"]
+[ext_resource type="Texture2D" uid="uid://b1k0ryqmay0fc" path="res://world/assets/platform.png" id="6_c1ilw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7j4u8"]
 texture = ExtResource("1_vymj7")
@@ -2503,6 +2504,21 @@ texture = ExtResource("5_u46yl")
 11:3/0/terrains_peering_bit/top_left_corner = 4
 11:3/0/terrains_peering_bit/top_side = 4
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e7ecj"]
+texture = ExtResource("6_c1ilw")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8, 8, 8)
+0:0/0/physics_layer_0/polygon_0/one_way = true
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8, 8, 8)
+1:0/0/physics_layer_0/polygon_0/one_way = true
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8, 8, 8)
+2:0/0/physics_layer_0/polygon_0/one_way = true
+3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8, 8, 8)
+3:0/0/physics_layer_0/polygon_0/one_way = true
+
 [resource]
 physics_layer_0/collision_layer = 2
 terrain_set_0/mode = 0
@@ -2521,6 +2537,7 @@ sources/1 = SubResource("TileSetAtlasSource_8ss21")
 sources/2 = SubResource("TileSetAtlasSource_8tq0f")
 sources/3 = SubResource("TileSetAtlasSource_7ybmr")
 sources/4 = SubResource("TileSetAtlasSource_6jvgo")
+sources/5 = SubResource("TileSetAtlasSource_e7ecj")
 metadata/_better_terrain = {
 "decoration": ["Decoration", Color(0.411765, 0.411765, 0.411765, 1), 3, [], {
 "path": "res://addons/better-terrain/icons/Decoration.svg"
