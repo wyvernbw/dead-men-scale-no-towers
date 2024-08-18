@@ -371,6 +371,8 @@ class ClimbJump:
 @export var rope: Rope
 @export var collectibles_detector: CollectibleDetector
 @export var stamina_anim: AnimationPlayer
+@export var pivot: Node2D
+@export var piton_spawn: Node2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -416,7 +418,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var angle = Vector2.DOWN.angle_to(dir)
 		var piton = PITON.instantiate()
 		piton.rotation = angle
-		piton.global_position = $PitonSpawn.global_position
+		piton.global_position = piton_spawn.global_position
 		pitons -= 1
 		add_sibling(piton)
 		await piton.hit
@@ -456,7 +458,7 @@ func _physics_process(delta: float) -> void:
 				velocity = velocity.project(motion_dir) - piton_to_player.normalized() * difference
 			velocity *= rappel_damping
 			rope.visible = true
-			rope.extend_to(piton.global_position - self.global_position)
+			rope.extend_to(piton.global_position - pivot.global_position)
 
 	look(look_direction)
 

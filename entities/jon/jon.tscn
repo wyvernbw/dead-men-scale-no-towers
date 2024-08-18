@@ -595,32 +595,18 @@ _data = {
 "run": SubResource("Animation_bhqiw")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwfd7"]
+size = Vector2(28, 35)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(12, 22)
-
-[sub_resource type="Animation" id="Animation_0ntgd"]
-resource_name = "idle"
-length = 0.1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_jmkwi"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:modulate")
+tracks/0/path = NodePath("Pivot/JonSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -638,7 +624,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:modulate")
+tracks/0/path = NodePath("Pivot/JonSprite:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -646,6 +632,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [Color(1, 1, 1, 1), Color(0.913859, 0.422397, 0.474367, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_0ntgd"]
+resource_name = "idle"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/JonSprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sb3uq"]
@@ -660,7 +663,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/path = NodePath("Pivot/JonSprite:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -672,7 +675,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("JonSprite:position")
+tracks/1/path = NodePath("Pivot/JonSprite:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -689,7 +692,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/path = NodePath("Pivot/JonSprite:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -701,7 +704,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("JonSprite:position")
+tracks/1/path = NodePath("Pivot/JonSprite:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -718,7 +721,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("JonSprite:scale")
+tracks/0/path = NodePath("Pivot/JonSprite:scale")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -730,7 +733,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("JonSprite:position")
+tracks/1/path = NodePath("Pivot/JonSprite:position")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -799,21 +802,20 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xwfd7"]
-size = Vector2(28, 35)
-
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycast", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn")]
 collision_mask = 2
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
-anim_player = NodePath("JonSprite/JonAnim")
+anim_player = NodePath("Pivot/JonSprite/JonAnim")
 squish_anim = NodePath("Squish")
-sprites_node = NodePath("JonSprite")
-floor_raycast = NodePath("FloorRaycast")
-wall_raycasts = NodePath("WallRaycasts")
-rope = NodePath("Rope")
-collectibles_detector = NodePath("CollectiblesDetector")
+sprites_node = NodePath("Pivot/JonSprite")
+floor_raycast = NodePath("Pivot/FloorRaycast")
+wall_raycasts = NodePath("Pivot/WallRaycasts")
+rope = NodePath("Pivot/Rope")
+collectibles_detector = NodePath("Pivot/CollectiblesDetector")
 stamina_anim = NodePath("StaminaFlash")
+pivot = NodePath("Pivot")
+piton_spawn = NodePath("Pivot/PitonSpawn")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -822,9 +824,12 @@ deacceleration = 768.0
 move_speed = 128.0
 rappel_damping = 0.99
 
-[node name="JonSprite" type="Node2D" parent="."]
+[node name="Pivot" type="Node2D" parent="."]
+position = Vector2(16, 16)
 
-[node name="Legs" type="Sprite2D" parent="JonSprite" groups=["jon_sprite"]]
+[node name="JonSprite" type="Node2D" parent="Pivot"]
+
+[node name="Legs" type="Sprite2D" parent="Pivot/JonSprite" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("1_hooed")
 hframes = 3
@@ -849,12 +854,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ad8bbfbc967f2709cba32e37aa1283d6"
 
-[node name="LegsAnim" type="AnimationPlayer" parent="JonSprite/Legs"]
+[node name="LegsAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Legs"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Torso" type="Sprite2D" parent="JonSprite" groups=["jon_sprite"]]
+[node name="Torso" type="Sprite2D" parent="Pivot/JonSprite" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("2_65ey6")
 metadata/_aseprite_wizard_config_ = {
@@ -877,14 +882,14 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "317b191153340b540da327818912818a"
 
-[node name="TorsoAnim" type="AnimationPlayer" parent="JonSprite/Torso"]
+[node name="TorsoAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Arms" type="Node2D" parent="JonSprite/Torso"]
+[node name="Arms" type="Node2D" parent="Pivot/JonSprite/Torso"]
 
-[node name="LeftArm" type="Sprite2D" parent="JonSprite/Torso/Arms" groups=["jon_sprite"]]
+[node name="LeftArm" type="Sprite2D" parent="Pivot/JonSprite/Torso/Arms" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("3_2vd3e")
 hframes = 3
@@ -909,12 +914,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ad8bbfbc967f2709cba32e37aa1283d6"
 
-[node name="LeftArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/LeftArm"]
+[node name="LeftArmAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Arms/LeftArm"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="RightArm" type="Sprite2D" parent="JonSprite/Torso/Arms" groups=["jon_sprite"]]
+[node name="RightArm" type="Sprite2D" parent="Pivot/JonSprite/Torso/Arms" groups=["jon_sprite"]]
 z_index = -1
 texture_filter = 1
 texture = ExtResource("4_vtnu8")
@@ -940,12 +945,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "ad8bbfbc967f2709cba32e37aa1283d6"
 
-[node name="RightArmAnim" type="AnimationPlayer" parent="JonSprite/Torso/Arms/RightArm"]
+[node name="RightArmAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Arms/RightArm"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Head" type="Sprite2D" parent="JonSprite/Torso" groups=["jon_sprite"]]
+[node name="Head" type="Sprite2D" parent="Pivot/JonSprite/Torso" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("5_ifitq")
 metadata/_aseprite_wizard_config_ = {
@@ -968,12 +973,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
-[node name="HeadAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head"]
+[node name="HeadAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Head"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Face" type="Sprite2D" parent="JonSprite/Torso/Head" groups=["jon_sprite"]]
+[node name="Face" type="Sprite2D" parent="Pivot/JonSprite/Torso/Head" groups=["jon_sprite"]]
 texture_filter = 1
 texture = ExtResource("6_wdgd4")
 hframes = 2
@@ -998,12 +1003,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
-[node name="FaceAnim" type="AnimationPlayer" parent="JonSprite/Torso/Head/Face"]
+[node name="FaceAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Head/Face"]
 libraries = {
 "": SubResource("AnimationLibrary_22jr5")
 }
 
-[node name="Cloak" type="Sprite2D" parent="JonSprite/Torso" groups=["jon_sprite"]]
+[node name="Cloak" type="Sprite2D" parent="Pivot/JonSprite/Torso" groups=["jon_sprite"]]
 visible = false
 texture_filter = 1
 texture = ExtResource("5_8hv4d")
@@ -1027,14 +1032,14 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "cca9d4e150db63237e805313505d6b04"
 
-[node name="CloakAnim" type="AnimationPlayer" parent="JonSprite/Torso/Cloak"]
+[node name="CloakAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Cloak"]
 libraries = {
 "": SubResource("AnimationLibrary_b2dc7")
 }
 
-[node name="Backpack" type="Node2D" parent="JonSprite/Torso"]
+[node name="Backpack" type="Node2D" parent="Pivot/JonSprite/Torso"]
 
-[node name="BackpackSprite" type="Sprite2D" parent="JonSprite/Torso/Backpack" groups=["jon_sprite"]]
+[node name="BackpackSprite" type="Sprite2D" parent="Pivot/JonSprite/Torso/Backpack" groups=["jon_sprite"]]
 z_index = -1
 texture_filter = 1
 texture = ExtResource("8_f0gdn")
@@ -1058,12 +1063,12 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
-[node name="BackpackAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackSprite"]
+[node name="BackpackAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Backpack/BackpackSprite"]
 libraries = {
 "": SubResource("AnimationLibrary_b2dc7")
 }
 
-[node name="BackpackBelt" type="Sprite2D" parent="JonSprite/Torso/Backpack" groups=["jon_sprite"]]
+[node name="BackpackBelt" type="Sprite2D" parent="Pivot/JonSprite/Torso/Backpack" groups=["jon_sprite"]]
 z_index = 1
 texture_filter = 1
 texture = ExtResource("9_81rtx")
@@ -1087,20 +1092,67 @@ metadata/_aseprite_wizard_interface_config_ = {
 }
 metadata/_aseprite_wizard_source_file_hash_ = "108ab8404027f39a13e558f0591f2231"
 
-[node name="BackpackBeltAnim" type="AnimationPlayer" parent="JonSprite/Torso/Backpack/BackpackBelt"]
+[node name="BackpackBeltAnim" type="AnimationPlayer" parent="Pivot/JonSprite/Torso/Backpack/BackpackBelt"]
 libraries = {
 "": SubResource("AnimationLibrary_b2dc7")
 }
 
-[node name="JonAnim" type="AnimationPlayer" parent="JonSprite"]
+[node name="JonAnim" type="AnimationPlayer" parent="Pivot/JonSprite"]
 deterministic = true
 libraries = {
 "": SubResource("AnimationLibrary_mmq3v")
 }
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="FloorRaycast" type="RayCast2D" parent="Pivot"]
+position = Vector2(0, 16)
+target_position = Vector2(0, 12)
+collision_mask = 2
+
+[node name="WallRaycasts" type="Node2D" parent="Pivot"]
+
+[node name="Right" type="Node2D" parent="Pivot/WallRaycasts"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot/WallRaycasts/Right"]
+position = Vector2(0, 11)
+target_position = Vector2(16, 0)
+collision_mask = 2
+
+[node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Right"]
+target_position = Vector2(16, 0)
+collision_mask = 2
+
+[node name="Left" type="Node2D" parent="Pivot/WallRaycasts"]
+
+[node name="RayCast2D" type="RayCast2D" parent="Pivot/WallRaycasts/Left"]
+position = Vector2(0, 11)
+target_position = Vector2(-16, 0)
+collision_mask = 2
+
+[node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Left"]
+target_position = Vector2(-16, 0)
+collision_mask = 2
+
+[node name="Rope" parent="Pivot" instance=ExtResource("12_qymx8")]
+visible = false
+z_index = -1
+position = Vector2(2, 7)
+
+[node name="PitonSpawn" type="Node2D" parent="Pivot"]
 position = Vector2(0, 5)
+
+[node name="CollectiblesDetector" type="Area2D" parent="Pivot"]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("13_82xhg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/CollectiblesDetector"]
+position = Vector2(0, 3.5)
+shape = SubResource("RectangleShape2D_xwfd7")
+debug_color = Color(0.505064, 0.574432, 1.92523e-07, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 21)
 shape = SubResource("RectangleShape2D_kictg")
 debug_color = Color(0, 0.595, 0.7, 0.0509804)
 
@@ -1119,54 +1171,7 @@ libraries = {
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-root_node = NodePath("../JonSprite")
+root_node = NodePath("../Pivot/JonSprite")
 callback_mode_discrete = 0
 tree_root = SubResource("AnimationNodeStateMachine_w6d66")
-anim_player = NodePath("../JonSprite/JonAnim")
-
-[node name="FloorRaycast" type="RayCast2D" parent="."]
-position = Vector2(0, 16)
-target_position = Vector2(0, 12)
-collision_mask = 2
-
-[node name="WallRaycasts" type="Node2D" parent="."]
-
-[node name="Right" type="Node2D" parent="WallRaycasts"]
-
-[node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Right"]
-position = Vector2(0, 11)
-target_position = Vector2(16, 0)
-collision_mask = 2
-
-[node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Right"]
-target_position = Vector2(16, 0)
-collision_mask = 2
-
-[node name="Left" type="Node2D" parent="WallRaycasts"]
-
-[node name="RayCast2D" type="RayCast2D" parent="WallRaycasts/Left"]
-position = Vector2(0, 11)
-target_position = Vector2(-16, 0)
-collision_mask = 2
-
-[node name="RayCast2D2" type="RayCast2D" parent="WallRaycasts/Left"]
-target_position = Vector2(-16, 0)
-collision_mask = 2
-
-[node name="Rope" parent="." instance=ExtResource("12_qymx8")]
-visible = false
-z_index = -1
-position = Vector2(2, 7)
-
-[node name="PitonSpawn" type="Node2D" parent="."]
-position = Vector2(0, 5)
-
-[node name="CollectiblesDetector" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 0
-script = ExtResource("13_82xhg")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectiblesDetector"]
-position = Vector2(0, 3.5)
-shape = SubResource("RectangleShape2D_xwfd7")
-debug_color = Color(0.505064, 0.574432, 1.92523e-07, 0)
+anim_player = NodePath("../Pivot/JonSprite/JonAnim")

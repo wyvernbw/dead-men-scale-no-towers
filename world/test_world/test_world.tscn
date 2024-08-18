@@ -41,7 +41,7 @@ shape = SubResource("RectangleShape2D_g035w")
 debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Jon" parent="." instance=ExtResource("1_jk6t4")]
-position = Vector2(144, 160)
+position = Vector2(128, 160)
 
 [node name="PitonGem" parent="." instance=ExtResource("2_ovxoy")]
 position = Vector2(224, 112)
