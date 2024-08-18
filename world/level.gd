@@ -8,7 +8,7 @@ extends Node2D
 
 func _ready() -> void:
 	for el in get_children():
-		if el is NextScreenGate:
+		if el is NextScreenGate and next_screen:
 			el.next_screen_id = next_screen.name
-		elif el is PreviousScreenGate:
+		elif el is PreviousScreenGate and previous_screen:
 			el.next_screen_id = previous_screen.name

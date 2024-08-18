@@ -30,9 +30,9 @@ background_mode = 3
 background_canvas_max_layer = 3
 tonemap_mode = 2
 glow_enabled = true
-glow_bloom = 0.1
+glow_bloom = 0.11
 adjustment_enabled = true
-adjustment_brightness = 0.83
+adjustment_brightness = 0.8
 
 [node name="Tower" type="Node2D"]
 
@@ -42,11 +42,11 @@ initial_camera = NodePath("../CamScreen1")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 scroll_scale = Vector2(0.01, 0.1)
-scroll_offset = Vector2(0, 48)
+scroll_offset = Vector2(0, 96)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 z_index = -2
-position = Vector2(160, -112)
+position = Vector2(144, -144)
 texture = ExtResource("2_406jw")
 
 [node name="Node2D" type="Node2D" parent="Parallax2D"]
@@ -71,6 +71,7 @@ mouse_filter = 2
 color = Color(0.99, 0.969375, 0.7425, 0.129412)
 
 [node name="Screen1" parent="." instance=ExtResource("3_13xq0")]
+initial_screen = true
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
 position = Vector2(160, 48)
@@ -85,6 +86,7 @@ dead_zone_width = 0.5
 dead_zone_height = 0.5
 draw_limits = true
 limit_left = 0
+limit_top = -272
 limit_right = 320
 limit_bottom = 180
 
@@ -92,6 +94,7 @@ limit_bottom = 180
 physics_interpolation_mode = 1
 position = Vector2(160, 48)
 limit_left = 0
+limit_top = -272
 limit_right = 320
 limit_bottom = 180
 position_smoothing_speed = 32.0

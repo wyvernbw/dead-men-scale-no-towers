@@ -90,13 +90,13 @@ class WallSlide:
 		var ms = jon.move_speed if jon.is_grounded() else jon.move_speed * 1.25
 		jon.velocity.x = sign(jon.velocity.x) * min(abs(jon.velocity.x), ms)
 		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
+		if Input.is_action_pressed("wall_grab") and jon.has_stamina():
+			return WallGrab.new()
 		if not jon.on_wall():
 			return Moving.new()
 		return self
 
 	func input(jon: Jon, event: InputEvent) -> MoveState:
-		if event.is_action_pressed("wall_grab") and jon.has_stamina():
-			return WallGrab.new()
 		return self
 
 class WallGrab:
@@ -106,6 +106,7 @@ class WallGrab:
 
 	func enter(jon: Jon) -> WallGrab:
 		jon.jump_state.transition(JumpStateWallGrab.new())
+		jon.global_position += Vector2.RIGHT * jon.wall_axis() * jon.get_distance_from_wall()
 		return self
 
 	func exit(jon: Jon) -> void:
@@ -496,6 +497,53 @@ func wall_axis() -> float:
 		)
 	return check.call(right) - check.call(left)
 
+func get_wall_collider() -> Node2D:
+	var left = wall_raycasts.get_node("Left")	
+	var right = wall_raycasts.get_node("Right")	
+	var check = func(node: Node): 
+		return (
+			Tracer.dbg("", node
+				.get_children()
+				.map(func(el): return el as RayCast2D)
+				.filter(func(el): return el)
+				.filter(func(el: RayCast2D): return el.is_colliding())
+				.front().get_collider()
+			)
+		)
+	var left_collider = check.call(left)
+	var right_collider = check.call(right)
+
+	if left_collider:
+		return left_collider
+	elif right_collider:
+		return right_collider
+	else:
+		return null
+
+func get_distance_from_wall() -> float:
+	var left = wall_raycasts.get_node("Left")	
+	var right = wall_raycasts.get_node("Right")	
+	var collision = func(node: Node): 
+		return (
+			Tracer.dbg("", node
+				.get_children()
+				.map(func(el): return el as RayCast2D)
+				.filter(func(el): return el)
+				.filter(func(el): return el.is_colliding())
+				.front()
+			)
+		)
+	var left_collider = collision.call(left)
+	var right_collider = collision.call(right)
+
+	if left_collider:
+		return left_collider.get_collision_point().distance_to(left_collider.global_position)
+	elif right_collider:
+		return right_collider.get_collision_point().distance_to(right_collider.global_position)
+	else:
+		return 0.0
+	
+ 
 func on_wall() -> bool:
 	return wall_axis() != 0.0
 
