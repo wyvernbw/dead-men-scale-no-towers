@@ -448,7 +448,7 @@ func _physics_process(delta: float) -> void:
 			rope.visible = false
 		{ "Some": var piton }:
 			movable.use_gravity = false
-			var piton_to_player = self.global_position - piton.global_position
+			var piton_to_player = pivot.global_position - piton.global_position
 			var theta = Vector2.DOWN.angle_to(piton_to_player.normalized())
 			var motion_dir = piton_to_player.rotated(-PI / 2.0).normalized()
 			var accel = Movable.GRAVITY * sin(theta)
