@@ -3,6 +3,8 @@ extends Area2D
 
 @export var next_screen_id: String
 
+var next_screen: Screen
+
 func _ready() -> void:
 	collision_mask = 32
 	collision_layer = 0
@@ -19,4 +21,13 @@ func _ready() -> void:
 			var id = "Cam" + next_screen_id
 			for manager in managers:
 				manager.switch_camera(id)
+			(create_tween()
+				.set_ease(Tween.EASE_OUT)
+				.set_trans(Tween.TRANS_BOUNCE)
+				.tween_property(
+					jon, "global_position",
+					next_screen.initial_position.global_position,
+					1.0
+				))
+
 	)

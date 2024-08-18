@@ -33,6 +33,7 @@ glow_enabled = true
 glow_bloom = 0.11
 adjustment_enabled = true
 adjustment_brightness = 0.8
+adjustment_saturation = 1.1
 
 [node name="Tower" type="Node2D"]
 

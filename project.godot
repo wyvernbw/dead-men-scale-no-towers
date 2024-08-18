@@ -29,7 +29,6 @@ shapes/collision/shape_color=Color(0, 0.595, 0.7, 0)
 
 window/size/viewport_width=320
 window/size/viewport_height=180
-window/size/mode=3
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 
@@ -42,6 +41,10 @@ enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addon
 folder_colors={
 "res://components/": "teal"
 }
+
+[global_group]
+
+jon=""
 
 [input]
 

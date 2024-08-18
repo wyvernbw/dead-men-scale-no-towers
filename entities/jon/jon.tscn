@@ -806,7 +806,7 @@ graph_offset = Vector2(-9, -31)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw2p4"]
 size = Vector2(12, 20)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox") groups=["jon"]]
 collision_layer = 33
 collision_mask = 2
 script = ExtResource("1_hssag")
@@ -825,8 +825,8 @@ hurtbox = NodePath("Hurtbox")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
-acceleration = 768.0
-deacceleration = 768.0
+acceleration = 832.0
+deacceleration = 832.0
 move_speed = 128.0
 rappel_damping = 0.99
 

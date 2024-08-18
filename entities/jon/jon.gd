@@ -1,6 +1,8 @@
 class_name Jon
 extends CharacterBody2D
 
+signal died(jon)
+
 const PITON = preload("res://entities/piton/piton.tscn")
 const MAX_STAMINA = 110
 const WALL_STAMINA_DRAIN = 10
@@ -407,6 +409,7 @@ var stamina := 10.0 : set = set_stamina
 func _ready() -> void:
 	collectibles_detector.collected.connect(on_collected)
 	hurtbox.area_entered.connect(on_hurtbox_area_entered)
+	hurtbox.body_entered.connect(on_hurtbox_area_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
 	move_state.input(event)
@@ -582,7 +585,9 @@ func drain_stamina(elapsed: float, loss_per_second: int) -> float:
 		stamina -= loss_per_second
 	return elapsed
 	
-func on_hurtbox_area_entered(area: Hitbox) -> void:
+func on_hurtbox_area_entered(area) -> void:
 	if not area:
 		return
 	# TODO: die
+	died.emit(self)
+	Tracer.info("Player emitted `died` signal.")

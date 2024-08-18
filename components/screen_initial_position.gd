@@ -1,0 +1,2 @@
+class_name ScreenInitialPosition
+extends Node2D
