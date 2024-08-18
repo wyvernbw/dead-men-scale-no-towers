@@ -423,6 +423,7 @@ func constrain_position_on_piton() -> void:
 
 func on_collected(collectible: Area2D):
 	if collectible is PitonGem:
+		collectible.collectible.passed_through.emit()
 		if pitons == 0:
 			collectible.collectible.collect_received.emit()
 			pitons = 1

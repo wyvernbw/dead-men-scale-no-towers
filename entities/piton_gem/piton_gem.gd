@@ -16,3 +16,7 @@ func _ready() -> void:
 			sprite_anim.play("idle")
 			collectible.can_be_collected = true
 	)
+	collectible.passed_through.connect(
+		func():
+			sprite_anim.play("pass_through")
+	)

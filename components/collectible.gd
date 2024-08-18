@@ -3,6 +3,7 @@ extends Node
 
 signal collected
 signal collect_received
+signal passed_through
 
 @export var can_be_collected := true
 
