@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=13 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Texture2D" uid="uid://bwjl8bpmh8khg" path="res://world/assets/forest_background.png" id="2_406jw"]
@@ -8,11 +8,31 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_7v2h5"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0fc3i"]
+blend_mode = 3
+
+[sub_resource type="Gradient" id="Gradient_ey5ok"]
+interpolation_mode = 2
+colors = PackedColorArray(0.239836, 0.0831982, 1.20327e-08, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k137o"]
+gradient = SubResource("Gradient_ey5ok")
+width = 16
+
 [sub_resource type="Resource" id="Resource_c1a14"]
 script = ExtResource("6_a0gtk")
 duration = 1.0
 transition = 0
 ease = 2
+
+[sub_resource type="Environment" id="Environment_c70h1"]
+background_mode = 3
+background_canvas_max_layer = 3
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.1
+adjustment_enabled = true
+adjustment_brightness = 0.83
 
 [node name="Tower" type="Node2D"]
 
@@ -25,8 +45,30 @@ scroll_scale = Vector2(0.01, 0.1)
 scroll_offset = Vector2(0, 48)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(160, -80)
+z_index = -2
+position = Vector2(160, -112)
 texture = ExtResource("2_406jw")
+
+[node name="Node2D" type="Node2D" parent="Parallax2D"]
+z_index = -1
+position = Vector2(0, -48)
+
+[node name="TextureRect" type="TextureRect" parent="Parallax2D/Node2D"]
+material = SubResource("CanvasItemMaterial_0fc3i")
+offset_left = -52.0
+offset_top = 250.0
+offset_right = 700.0
+offset_bottom = 832.0
+rotation = -1.73864
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_k137o")
+
+[node name="ColorRect" type="ColorRect" parent="Parallax2D/Node2D"]
+offset_top = -528.0
+offset_right = 608.0
+offset_bottom = 192.0
+mouse_filter = 2
+color = Color(0.99, 0.969375, 0.7425, 0.129412)
 
 [node name="Screen1" parent="." instance=ExtResource("3_13xq0")]
 
@@ -52,9 +94,11 @@ position = Vector2(160, 48)
 limit_left = 0
 limit_right = 320
 limit_bottom = 180
-position_smoothing_enabled = true
 position_smoothing_speed = 32.0
 editor_draw_limits = true
 
 [node name="PhantomCameraHost" type="Node" parent="Camera2D"]
 script = ExtResource("7_7v2h5")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c70h1")

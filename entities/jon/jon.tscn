@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=53 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -802,6 +802,9 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw2p4"]
+size = Vector2(12, 20)
+
 [node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox")]
 collision_layer = 33
 collision_mask = 2
@@ -1192,10 +1195,11 @@ tree_root = SubResource("AnimationNodeStateMachine_w6d66")
 anim_player = NodePath("../Pivot/JonSprite/JonAnim")
 
 [node name="Hurtbox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(16, 21)
-shape = SubResource("RectangleShape2D_kictg")
+position = Vector2(16, 20)
+shape = SubResource("RectangleShape2D_sw2p4")
 debug_color = Color(0.970495, 0, 0.404173, 0.0509804)
