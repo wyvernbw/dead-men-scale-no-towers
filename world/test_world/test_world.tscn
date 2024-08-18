@@ -53,6 +53,7 @@ tween_resource = SubResource("Resource_5jyfs")
 follow_offset = Vector2(16, 0)
 dead_zone_width = 0.5
 dead_zone_height = 0.5
+draw_limits = true
 limit_left = 0
 limit_bottom = 180
 

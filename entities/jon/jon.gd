@@ -373,6 +373,7 @@ class ClimbJump:
 @export var stamina_anim: AnimationPlayer
 @export var pivot: Node2D
 @export var piton_spawn: Node2D
+@export var hurtbox: Area2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -404,6 +405,7 @@ var stamina := 10.0 : set = set_stamina
 
 func _ready() -> void:
 	collectibles_detector.collected.connect(on_collected)
+	hurtbox.area_entered.connect(on_hurtbox_area_entered)
 
 func _unhandled_input(event: InputEvent) -> void:
 	move_state.input(event)
@@ -532,3 +534,7 @@ func drain_stamina(elapsed: float, loss_per_second: int) -> float:
 		stamina -= loss_per_second
 	return elapsed
 	
+func on_hurtbox_area_entered(area: Hitbox) -> void:
+	if not area:
+		return
+	# TODO: die

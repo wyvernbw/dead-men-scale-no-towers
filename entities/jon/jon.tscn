@@ -802,7 +802,8 @@ states/run/position = Vector2(457, 19)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_62ei6"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s")]
 graph_offset = Vector2(-9, -31)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn")]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox")]
+collision_layer = 33
 collision_mask = 2
 script = ExtResource("1_hssag")
 movable = NodePath("Movable")
@@ -816,6 +817,7 @@ collectibles_detector = NodePath("Pivot/CollectiblesDetector")
 stamina_anim = NodePath("StaminaFlash")
 pivot = NodePath("Pivot")
 piton_spawn = NodePath("Pivot/PitonSpawn")
+hurtbox = NodePath("Hurtbox")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1188,3 +1190,12 @@ root_node = NodePath("../Pivot/JonSprite")
 callback_mode_discrete = 0
 tree_root = SubResource("AnimationNodeStateMachine_w6d66")
 anim_player = NodePath("../Pivot/JonSprite/JonAnim")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(16, 21)
+shape = SubResource("RectangleShape2D_kictg")
+debug_color = Color(0.970495, 0, 0.404173, 0.0509804)

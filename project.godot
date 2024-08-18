@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 Events="*res://share/events.gd"
 Tracer="*res://addons/tracer/./tracer.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
+BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 
 [debug]
 
@@ -33,7 +34,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/tracer/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/tracer/plugin.cfg")
 
 [file_customization]
 

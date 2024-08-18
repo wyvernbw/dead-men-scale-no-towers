@@ -120,4 +120,3 @@ func with_writer(writer: Callable) -> TraceSubscriber:
 static func writer_from_file(file: FileAccess) -> Callable:
 	return func(text: String) -> void:
 		file.store_string(text + "\n")
-

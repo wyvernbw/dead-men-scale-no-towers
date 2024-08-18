@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://coo2skd38tt2d"]
+
+[ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
+[ext_resource type="Texture2D" uid="uid://bwjl8bpmh8khg" path="res://world/assets/forest_background.png" id="2_406jw"]
+[ext_resource type="PackedScene" uid="uid://c306otuxdrvff" path="res://world/screen_1.tscn" id="3_13xq0"]
+[ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="4_y7i2i"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_056ad"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
+[ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_7v2h5"]
+
+[sub_resource type="Resource" id="Resource_c1a14"]
+script = ExtResource("6_a0gtk")
+duration = 1.0
+transition = 0
+ease = 2
+
+[node name="Tower" type="Node2D"]
+
+[node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("initial_camera")]
+script = ExtResource("1_jpml2")
+initial_camera = NodePath("../CamScreen1")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.01, 0.1)
+scroll_offset = Vector2(0, 48)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(160, -80)
+texture = ExtResource("2_406jw")
+
+[node name="Screen1" parent="." instance=ExtResource("3_13xq0")]
+
+[node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
+position = Vector2(160, 48)
+
+[node name="CamScreen1" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(160, 48)
+script = ExtResource("5_056ad")
+follow_mode = 5
+follow_target = NodePath("../Jon")
+tween_resource = SubResource("Resource_c1a14")
+dead_zone_width = 0.5
+dead_zone_height = 0.5
+draw_limits = true
+limit_left = 0
+limit_right = 320
+limit_bottom = 180
+
+[node name="Camera2D" type="Camera2D" parent="."]
+physics_interpolation_mode = 1
+position = Vector2(160, 48)
+limit_left = 0
+limit_right = 320
+limit_bottom = 180
+position_smoothing_enabled = true
+position_smoothing_speed = 32.0
+editor_draw_limits = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D"]
+script = ExtResource("7_7v2h5")
