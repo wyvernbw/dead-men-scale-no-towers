@@ -2,6 +2,9 @@ class_name Jon
 extends CharacterBody2D
 
 const PITON = preload("res://entities/piton/piton.tscn")
+const MAX_STAMINA = 110
+const WALL_STAMINA_DRAIN = 10
+const CLIMB_JUMP_STAMINA_COST = 25
 
 class MoveState:
 	extends Wisp.State
@@ -92,15 +95,17 @@ class WallSlide:
 		return self
 
 	func input(jon: Jon, event: InputEvent) -> MoveState:
-		if event.is_action_pressed("wall_grab"):
+		if event.is_action_pressed("wall_grab") and jon.has_stamina():
 			return WallGrab.new()
 		return self
 
 class WallGrab:
 	extends MoveState
 
+	var elapsed: float
+
 	func enter(jon: Jon) -> WallGrab:
-		jon.jump_state.transition(JumpStateWallSlide.new())
+		jon.jump_state.transition(JumpStateWallGrab.new())
 		return self
 
 	func exit(jon: Jon) -> void:
@@ -112,6 +117,9 @@ class WallGrab:
 		jon.constrain_position_on_piton()
 		jon.velocity.y = jon.move_speed / 4.0 * climb_dir
 		jon.velocity.x = 0.0
+		elapsed = jon.drain_stamina(elapsed + delta, Jon.WALL_STAMINA_DRAIN)
+		if not jon.has_stamina():
+			return Moving.new()
 		if not jon.on_wall():
 			return Moving.new()
 		return self
@@ -223,7 +231,10 @@ class Fall:
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		jon.anim_state.travel("fall")
 		if jon.on_wall():
-			return JumpStateWallSlide.new()
+			if jon.move_state.current_state is WallSlide:
+				return JumpStateWallSlide.new()
+			elif jon.move_state.current_state is WallGrab:
+				return JumpStateWallGrab.new()
 		if jon.velocity.y == Movable.MAX_FALL:
 			jon.squish_anim.play("hsquish")
 		if jon.is_grounded():
@@ -243,6 +254,31 @@ class JumpStateWallSlide:
 		match await Async.select([jon.jump_input, self.fell_off]):
 			{ 0: _ }:
 				return WallJump.new()
+			{ 1: _ }:
+				await jon.get_tree().create_timer(0.25, false).timeout
+				return Fall.new()
+		return await self.enter(jon)
+
+	func process(jon: Jon, _delta: float) -> JumpState:
+		if not jon.is_grounded() and not jon.on_wall():
+			fell_off.emit()
+		return self
+
+class JumpStateWallGrab:
+	extends JumpState
+
+	signal fell_off
+
+	func name() -> String:
+		return "JumpState::JumpStateWallSlide"
+
+	func enter(jon: Jon) -> JumpState:
+		match await Async.select([jon.jump_input, self.fell_off]):
+			{ 0: _ }:
+				if MoveState.get_x_move_dir() == 0.0:
+					return ClimbJump.new()
+				else:
+					return WallJump.new()
 			{ 1: _ }:
 				await jon.get_tree().create_timer(0.25, false).timeout
 				return Fall.new()
@@ -289,6 +325,37 @@ class WallJump:
 			return Fall.new()
 		return self
 
+class ClimbJump:
+	extends JumpState
+
+	var elapsed = 0.0
+	var axis: float = 0.0
+
+	func name() -> String:
+		return "JumpState::WallJump"
+
+	func enter(jon: Jon) -> JumpState:
+		Tracer.info("jumped!")
+		elapsed = 0.0
+		axis = jon.wall_axis()
+		jon.squish_anim.play("hsquish")
+		jon.stamina -= Jon.CLIMB_JUMP_STAMINA_COST
+		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
+		jon.squish_anim.play("hunsquish")
+		return self
+
+	func physics_process(jon: Jon, delta: float) -> JumpState:
+		elapsed += delta
+		jon.anim_state.travel("jump")
+		# counter act gravity
+		jon.velocity = Vector2.UP * jon.jump_speed
+		if jon.is_on_ceiling():
+			return Fall.new()
+		# shorter jump
+		if elapsed > jon.min_jump_time * 2.0:
+			return Fall.new()
+		return self
+
 @onready var anim_tree = get_node("AnimationTree")
 @onready var anim_state = anim_tree.get("parameters/playback")
 
@@ -303,6 +370,7 @@ class WallJump:
 @export var wall_raycasts: Node2D
 @export var rope: Rope
 @export var collectibles_detector: CollectibleDetector
+@export var stamina_anim: AnimationPlayer
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -330,6 +398,7 @@ var releases = [
 var look_direction: float = 1.0
 var pitons := 1
 var current_piton = Maybe.new()
+var stamina := 10.0 : set = set_stamina
 
 func _ready() -> void:
 	collectibles_detector.collected.connect(on_collected)
@@ -363,7 +432,12 @@ func _physics_process(delta: float) -> void:
 	jump_state.physics_process(delta)
 	movable.update(delta)
 	if is_grounded():
+		refill_stamina()
 		pitons = 1
+	if self.stamina <= 0.0:
+		stamina_anim.play("flash_red")
+	else:
+		stamina_anim.play("idle")
 	if not is_zero_approx(velocity.x):
 		look_direction = sign(velocity.x)
 	match current_piton.expr():
@@ -427,3 +501,24 @@ func on_collected(collectible: Area2D):
 		if pitons == 0:
 			collectible.collectible.collect_received.emit()
 			pitons = 1
+
+func set_stamina(value: float) -> void:
+	stamina = clamp(value, 0, MAX_STAMINA)
+
+func refill_stamina() -> void:
+	set_stamina(MAX_STAMINA)
+
+func has_stamina() -> bool:
+	return stamina > 0
+
+## drain_stamina
+##
+## @param {float} elapsed Should be smaller than 2.0
+## @param {int} loss_per_second
+## @returns {float} Updated value of elapsed
+func drain_stamina(elapsed: float, loss_per_second: int) -> float:
+	if elapsed >= 1.0:
+		elapsed -= 1.0
+		stamina -= loss_per_second
+	return elapsed
+	
