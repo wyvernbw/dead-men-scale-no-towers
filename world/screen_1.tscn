@@ -56,5 +56,5 @@ shape = SubResource("WorldBoundaryShape2D_6gy3m")
 debug_color = Color(0.93, 0, 0.6355, 0.286275)
 
 [node name="ScreenInitialPosition" type="Node2D" parent="."]
-position = Vector2(16, 80)
+position = Vector2(16, 64)
 script = ExtResource("4_a5itm")

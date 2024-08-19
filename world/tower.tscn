@@ -153,7 +153,7 @@ limit_right = 320
 limit_bottom = 180
 
 [node name="CamScreen2" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
-position = Vector2(160, -346)
+position = Vector2(32, -346)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
@@ -162,7 +162,7 @@ follow_damping = true
 dead_zone_width = 0.5
 dead_zone_height = 0.5
 draw_limits = true
-limit_left = 0
+limit_left = -128
 limit_right = 320
 limit_bottom = -256
 

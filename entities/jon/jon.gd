@@ -24,10 +24,11 @@ class Idle:
 
 	func enter(jon: Jon) -> MoveState:
 		elapsed = 0.0
-		jon.anim_state.travel("idle")
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
+		if jon.is_grounded():
+			jon.anim_state.travel("idle")
 		if jon.current_piton.is_some() and not jon.is_on_floor():
 			return Rappel.new()
 		jon.constrain_position_on_piton()
@@ -77,15 +78,18 @@ class WallSlide:
 
 	func enter(jon: Jon) -> MoveState:
 		jon.jump_state.transition(JumpStateWallSlide.new())
+		jon.anim_state.travel("wall_slide")
 		return self
 
 	func exit(jon: Jon) -> void:
 		jon.movable.gravity_multiplier = 1.0
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
-		jon.movable.gravity_multiplier = 0.20
+		jon.movable.gravity_multiplier = 0.15
 		jon.constrain_position_on_piton()
 		var dir = get_x_move_dir()
+		if dir == 0.0:
+			return Moving.new()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
 		jon.velocity.x += dir * delta * accel
 		# bhop
@@ -109,6 +113,7 @@ class WallGrab:
 	func enter(jon: Jon) -> WallGrab:
 		jon.jump_state.transition(JumpStateWallGrab.new())
 		jon.global_position += Vector2.RIGHT * jon.wall_axis() * jon.get_distance_from_wall()
+		jon.anim_state.travel("climb")
 		return self
 
 	func exit(jon: Jon) -> void:
@@ -208,13 +213,13 @@ class Jump:
 		Tracer.info("jumped!")
 		elapsed = 0.0
 		jon.squish_anim.play("hsquish")
+		jon.anim_state.travel("jump")
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		elapsed += delta
-		jon.anim_state.travel("jump")
 		# counter act gravity
 		jon.velocity.y = -jon.jump_speed
 		if jon.is_on_ceiling():
@@ -231,8 +236,11 @@ class Fall:
 	func name() -> String:
 		return "JumpState::Fall"
 
-	func physics_process(jon: Jon, delta: float) -> JumpState:
+	func enter(jon: Jon) -> JumpState:
 		jon.anim_state.travel("fall")
+		return self 
+
+	func physics_process(jon: Jon, delta: float) -> JumpState:
 		if jon.on_wall():
 			if jon.move_state.current_state is WallSlide:
 				return JumpStateWallSlide.new()
@@ -273,7 +281,7 @@ class JumpStateWallGrab:
 	signal fell_off
 
 	func name() -> String:
-		return "JumpState::JumpStateWallSlide"
+		return "JumpState::JumpStateWallGrab"
 
 	func enter(jon: Jon) -> JumpState:
 		match await Async.select([jon.jump_input, self.fell_off]):
@@ -308,13 +316,13 @@ class WallJump:
 		elapsed = 0.0
 		axis = jon.wall_axis()
 		jon.squish_anim.play("hsquish")
+		jon.anim_state.travel("jump")
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		elapsed += delta
-		jon.anim_state.travel("jump")
 		# counter act gravity
 		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed * Vector2(h_mod, v_mod)
 		if jon.is_on_ceiling():
@@ -343,13 +351,13 @@ class ClimbJump:
 		axis = jon.wall_axis()
 		jon.squish_anim.play("hsquish")
 		jon.stamina -= Jon.CLIMB_JUMP_STAMINA_COST
+		jon.anim_state.travel("jump")
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
 
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		elapsed += delta
-		jon.anim_state.travel("jump")
 		# counter act gravity
 		jon.velocity = Vector2.UP * jon.jump_speed
 		if jon.is_on_ceiling():
@@ -432,13 +440,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			current_piton = Maybe.new(piton)
 		elif current_piton.is_some():
 			current_piton = Maybe.new()
-	# Tracer.info(move_state.current_state.name())
 
 func _process(delta: float) -> void:
 	move_state.process(delta)
 	jump_state.process(delta)
 
 func _physics_process(delta: float) -> void:
+	Tracer.info(jump_state.current_state.name())
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
 	movable.update(delta)
