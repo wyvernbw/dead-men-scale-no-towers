@@ -35,5 +35,6 @@ func _ready() -> void:
 					next_screen.initial_position.global_position,
 					0.25
 				))
+			jon.fall()
 
 	)

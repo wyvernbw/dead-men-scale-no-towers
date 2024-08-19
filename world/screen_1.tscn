@@ -38,6 +38,7 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_pbft1")
+debug_color = Color(0, 0.595, 0.7, 0)
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(384, -80)
@@ -46,6 +47,7 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_pbft1")
+debug_color = Color(0, 0.595, 0.7, 0)
 
 [node name="NextScreenGate" type="Area2D" parent="."]
 position = Vector2(0, -256)

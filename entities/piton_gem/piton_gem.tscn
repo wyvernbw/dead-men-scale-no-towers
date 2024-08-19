@@ -281,6 +281,7 @@ speed_scale = 0.5
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_hxngd")
+debug_color = Color(0, 0.595, 0.7, 0)
 
 [node name="Collectible" type="Node" parent="."]
 script = ExtResource("3_t6qhr")

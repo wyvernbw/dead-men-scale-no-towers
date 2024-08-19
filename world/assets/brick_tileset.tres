@@ -2478,6 +2478,7 @@ texture = ExtResource("6_c1ilw")
 [resource]
 physics_layer_0/collision_layer = 2
 physics_layer_1/collision_layer = 16
+physics_layer_1/collision_mask = 0
 physics_layer_2/collision_layer = 256
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Bricks"

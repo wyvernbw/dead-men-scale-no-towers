@@ -37,7 +37,6 @@ class Idle:
 			jon.deacceleration * delta
 		)
 		elapsed += delta
-		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / jon.move_speed)
 		if jon.wall_axis() != 0.0 and Input.is_action_pressed("wall_grab"):
 			return WallGrab.new()
 		if not is_zero_approx(get_x_move_dir()):
@@ -72,7 +71,6 @@ class Moving:
 		# bhop
 		var ms = jon.move_speed if jon.is_grounded() else jon.move_speed * 1.25
 		jon.velocity.x = sign(jon.velocity.x) * min(abs(jon.velocity.x), ms)
-		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
 		if is_zero_approx(dir):
 			return Idle.new()
 		return self
@@ -101,7 +99,6 @@ class WallSlide:
 		# bhop
 		var ms = jon.move_speed if jon.is_grounded() else jon.move_speed * 1.25
 		jon.velocity.x = sign(jon.velocity.x) * min(abs(jon.velocity.x), ms)
-		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / ms)
 		if Input.is_action_pressed("wall_grab") and jon.has_stamina():
 			return WallGrab.new()
 		if not jon.on_wall():
@@ -154,7 +151,7 @@ class Rappel:
 
 	func exit(jon: Jon) -> void:
 		jon.create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD).tween_property(
-			jon.sprites_node, "rotation", -jon.sprites_node.rotation, 0.5, 
+			jon.sprites_node, "rotation", -jon.sprites_node.rotation + 2 * PI, 0.5, 
 		).as_relative()
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
@@ -168,11 +165,10 @@ class Rappel:
 			"None":
 				return Moving.new()
 			{ "Some": var piton }:
-				jon.sprites_node.rotation = (
-					jon.pivot.global_position.direction_to(
-						piton.global_position
-					).angle_to(Vector2.RIGHT if jon.velocity.x > 0.0 else Vector2.LEFT)
+				var jon_to_piton = jon.pivot.global_position.direction_to(
+					piton.global_position
 				)
+				jon.sprites_node.look_at(piton.global_position)
 				var dir = get_x_move_dir()
 				var accel = jon.acceleration * 0.5
 				var piton_to_player = jon.pivot.global_position - piton.global_position
@@ -185,7 +181,7 @@ class Rappel:
 	func input(jon: Jon, event: InputEvent) -> MoveState:
 		if event.is_action_pressed("jump"):
 			jon.current_piton = Maybe.new()
-			jon.jump_state.transition(Jump.new())
+			jon.jump_state.transition(RappelJump.new())
 		return self
 
 class JumpState:
@@ -234,6 +230,37 @@ class Jump:
 		elapsed += delta
 		# counter act gravity
 		jon.velocity.y = -jon.jump_speed
+		if jon.is_on_ceiling():
+			return Fall.new()
+		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
+			return Fall.new()
+		if elapsed > jon.max_jump_time:
+			return Fall.new()
+		return self
+
+class RappelJump:
+	extends JumpState
+
+	var elapsed = 0.0
+	var stored_velocity
+
+	func name() -> String:
+		return "JumpState::Jump"
+
+	func enter(jon: Jon) -> JumpState:
+		Tracer.info("jumped!")
+		elapsed = 0.0
+		jon.squish_anim.play("hsquish")
+		jon.anim_state.travel("jump")
+		stored_velocity = jon.velocity * 1.25
+		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
+		jon.squish_anim.play("hunsquish")
+		return self
+
+	func physics_process(jon: Jon, delta: float) -> JumpState:
+		elapsed += delta
+		# counter act gravity
+		jon.velocity = stored_velocity
 		if jon.is_on_ceiling():
 			return Fall.new()
 		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
@@ -459,6 +486,11 @@ func _process(delta: float) -> void:
 	jump_state.process(delta)
 
 func _physics_process(delta: float) -> void:
+	hurtbox.global_skew -= hurtbox.global_skew
+	if not move_state.current_state is Rappel:
+		sprites_node.skew = lerp(0.0, sign(velocity.x) * deg_to_rad(20.0), abs(velocity.x) / move_speed)
+	else:
+		sprites_node.skew = 0.0
 	Tracer.info(move_state.current_state.name() + str(wall_axis()))
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
@@ -633,5 +665,11 @@ func on_hurtbox_area_entered(area) -> void:
 	if not area:
 		return
 	# TODO: die
+	if Events.PAUSE_ON_DEATH:
+		get_tree().paused = true
 	died.emit(self)
+	current_piton = Maybe.None()
 	Tracer.info("Player emitted `died` signal.")
+
+func fall() -> void:
+	jump_state.transition(Fall.new())

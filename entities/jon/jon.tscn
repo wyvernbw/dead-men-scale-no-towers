@@ -969,6 +969,9 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xwfd7"]
 size = Vector2(28, 35)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw2p4"]
+size = Vector2(6, 16)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kictg"]
 size = Vector2(12, 22)
 
@@ -1197,9 +1200,6 @@ states/wall_slide/position = Vector2(350, 427)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_eifkj"), "idle", "run", SubResource("AnimationNodeStateMachineTransition_ifj16"), "run", "idle", SubResource("AnimationNodeStateMachineTransition_upafw"), "fall", "land", SubResource("AnimationNodeStateMachineTransition_bcwes"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_rkn14"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_unboa"), "jump", "fall", SubResource("AnimationNodeStateMachineTransition_uwc5v"), "run", "jump", SubResource("AnimationNodeStateMachineTransition_mmk7s"), "jump", "land", SubResource("AnimationNodeStateMachineTransition_xj6gv"), "idle", "wall_slide", SubResource("AnimationNodeStateMachineTransition_38ocx"), "jump", "wall_slide", SubResource("AnimationNodeStateMachineTransition_170nv"), "wall_slide", "climb", SubResource("AnimationNodeStateMachineTransition_f5qco"), "climb", "wall_slide", SubResource("AnimationNodeStateMachineTransition_cmkmc"), "wall_slide", "idle", SubResource("AnimationNodeStateMachineTransition_6mu1c"), "wall_slide", "jump", SubResource("AnimationNodeStateMachineTransition_ts8bs")]
 graph_offset = Vector2(18, 51)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sw2p4"]
-size = Vector2(12, 20)
-
 [sub_resource type="Curve" id="Curve_grllv"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), -3.21749, -3.21749, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -1229,7 +1229,7 @@ collectibles_detector = NodePath("Pivot/CollectiblesDetector")
 stamina_anim = NodePath("StaminaFlash")
 pivot = NodePath("Pivot")
 piton_spawn = NodePath("Pivot/PitonSpawn")
-hurtbox = NodePath("Hurtbox")
+hurtbox = NodePath("Pivot/Hurtbox")
 wall_dust = NodePath("WallDust")
 jump_speed = 196.0
 max_jump_time = 0.2
@@ -1520,6 +1520,10 @@ libraries = {
 }
 autoplay = "idle"
 
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Pivot/JonSprite"]
+position = Vector2(-16, -15)
+remote_path = NodePath("../../Hurtbox")
+
 [node name="FloorRaycasts" type="Node2D" parent="Pivot"]
 position = Vector2(-16, -16)
 
@@ -1548,6 +1552,7 @@ target_position = Vector2(12, 0)
 collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Right"]
+position = Vector2(0, 4)
 target_position = Vector2(12, 0)
 collision_mask = 2
 
@@ -1559,6 +1564,7 @@ target_position = Vector2(-12, 0)
 collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Left"]
+position = Vector2(0, 5)
 target_position = Vector2(-12, 0)
 collision_mask = 2
 
@@ -1579,6 +1585,16 @@ script = ExtResource("13_82xhg")
 position = Vector2(0, 3.5)
 shape = SubResource("RectangleShape2D_xwfd7")
 debug_color = Color(0.505064, 0.574432, 1.92523e-07, 0)
+
+[node name="Hurtbox" type="Area2D" parent="Pivot"]
+position = Vector2(-16, -15)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/Hurtbox"]
+position = Vector2(16, 20)
+shape = SubResource("RectangleShape2D_sw2p4")
+debug_color = Color(0.970495, 0, 0.404173, 0.0509804)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 21)
@@ -1604,16 +1620,6 @@ root_node = NodePath("../Pivot/JonSprite")
 callback_mode_discrete = 1
 tree_root = SubResource("AnimationNodeStateMachine_w6d66")
 anim_player = NodePath("../Pivot/JonSprite/JonAnim")
-
-[node name="Hurtbox" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 16
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(16, 20)
-shape = SubResource("RectangleShape2D_sw2p4")
-debug_color = Color(0.970495, 0, 0.404173, 0.0509804)
 
 [node name="DebugFly" type="Node" parent="."]
 script = ExtResource("14_bih57")

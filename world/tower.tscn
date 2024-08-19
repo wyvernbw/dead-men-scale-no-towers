@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=22 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_056ad"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_7v2h5"]
+[ext_resource type="PackedScene" uid="uid://b822mit6xaiyk" path="res://world/screen_3.tscn" id="7_s6d64"]
+[ext_resource type="PackedScene" uid="uid://b1m3ccndabecr" path="res://world/screen_4.tscn" id="8_i6mp3"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0dxju"]
 particles_animation = true
@@ -129,10 +131,20 @@ initial_screen = true
 bgm_track = "the_night_before_battle.mp3"
 next_screen = NodePath("../Screen2")
 
-[node name="Screen2" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("4_2t28d")]
+[node name="Screen2" parent="." node_paths=PackedStringArray("next_screen", "previous_screen") instance=ExtResource("4_2t28d")]
 z_index = 1
 position = Vector2(0, -288)
+next_screen = NodePath("../Screen3")
 previous_screen = NodePath("../Screen1")
+
+[node name="Screen3" parent="." node_paths=PackedStringArray("next_screen", "previous_screen") instance=ExtResource("7_s6d64")]
+position = Vector2(0, -576)
+next_screen = NodePath("../Screen4")
+previous_screen = NodePath("../Screen2")
+
+[node name="Screen4" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("8_i6mp3")]
+position = Vector2(0, -880)
+previous_screen = NodePath("../Screen3")
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
 position = Vector2(16, 80)
@@ -163,8 +175,38 @@ dead_zone_width = 0.5
 dead_zone_height = 0.5
 draw_limits = true
 limit_left = -128
+limit_top = -560
 limit_right = 320
 limit_bottom = -256
+
+[node name="CamScreen3" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(32, -634)
+script = ExtResource("5_056ad")
+follow_mode = 2
+follow_target = NodePath("../Jon")
+tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
+dead_zone_width = 0.5
+dead_zone_height = 0.5
+draw_limits = true
+limit_left = -128
+limit_top = -880
+limit_right = 320
+limit_bottom = -544
+
+[node name="CamScreen4" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(32, -954)
+script = ExtResource("5_056ad")
+follow_mode = 2
+follow_target = NodePath("../Jon")
+tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
+dead_zone_width = 0.5
+dead_zone_height = 0.5
+draw_limits = true
+limit_left = -128
+limit_right = 320
+limit_bottom = -864
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1

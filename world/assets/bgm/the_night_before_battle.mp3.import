@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/the_night_before_battle.mp3-2cb3d30f332ea2008
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0
