@@ -38,6 +38,8 @@ class Idle:
 		)
 		elapsed += delta
 		jon.sprites_node.skew = lerp(0.0, sign(jon.velocity.x) * deg_to_rad(20.0), abs(jon.velocity.x) / jon.move_speed)
+		if jon.wall_axis() != 0.0 and Input.is_action_pressed("wall_grab"):
+			return WallGrab.new()
 		if not is_zero_approx(get_x_move_dir()):
 			return Moving.new()
 		return self
@@ -61,6 +63,8 @@ class Moving:
 			jon.anim_state.travel("run")
 		if not jon.is_grounded() and jon.on_wall():
 			return WallSlide.new()
+		if jon.wall_axis() != 0.0 and Input.is_action_pressed("wall_grab"):
+			return WallGrab.new()
 		var dir = get_x_move_dir()
 		jon.constrain_position_on_piton()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
@@ -79,17 +83,19 @@ class WallSlide:
 	func enter(jon: Jon) -> MoveState:
 		jon.jump_state.transition(JumpStateWallSlide.new())
 		jon.anim_state.travel("wall_slide")
+		jon.wall_dust.emitting = true
 		return self
 
 	func exit(jon: Jon) -> void:
 		jon.movable.gravity_multiplier = 1.0
+		jon.wall_dust.emitting = false
 
 	func physics_process(jon: Jon, delta: float) -> MoveState:
 		jon.movable.gravity_multiplier = 0.15
 		jon.constrain_position_on_piton()
 		var dir = get_x_move_dir()
 		if dir == 0.0:
-			return Moving.new()
+			return Idle.new()
 		var accel = jon.acceleration if sign(jon.velocity.x) == sign(dir) else jon.acceleration * 2.0
 		jon.velocity.x += dir * delta * accel
 		# bhop
@@ -128,12 +134,10 @@ class WallGrab:
 		elapsed = jon.drain_stamina(elapsed + delta, Jon.WALL_STAMINA_DRAIN)
 		if not jon.has_stamina():
 			return Moving.new()
-		if not jon.on_wall():
+		if is_zero_approx(jon.wall_axis()):
 			return Moving.new()
-		return self
-
-	func input(jon: Jon, event: InputEvent) -> MoveState:
-		if event.is_action_released("wall_grab"):
+		if not Input.is_action_pressed("wall_grab"):
+			Tracer.info("Released wall grab")
 			return WallSlide.new()
 		return self
 
@@ -385,6 +389,7 @@ class ClimbJump:
 @export var pivot: Node2D
 @export var piton_spawn: Node2D
 @export var hurtbox: Area2D
+@export var wall_dust: GPUParticles2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -446,7 +451,7 @@ func _process(delta: float) -> void:
 	jump_state.process(delta)
 
 func _physics_process(delta: float) -> void:
-	Tracer.info(jump_state.current_state.name())
+	Tracer.info(move_state.current_state.name() + str(wall_axis()))
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
 	movable.update(delta)
@@ -459,6 +464,7 @@ func _physics_process(delta: float) -> void:
 		stamina_anim.play("idle")
 	if not is_zero_approx(velocity.x):
 		look_direction = sign(velocity.x)
+	wall_dust.global_position = pivot.global_position + wall_axis() * get_distance_from_wall() * Vector2.RIGHT + Vector2.DOWN * 8.0
 	match current_piton.expr():
 		"None":
 			movable.use_gravity = true
@@ -506,7 +512,14 @@ func wall_axis() -> float:
 				.filter(func(el): return el)
 				.reduce(func(acc, el): return acc or el.is_colliding(), false)
 		)
-	return check.call(right) - check.call(left)
+	var left_value = check.call(left)
+	var right_value = check.call(right)
+	if left_value != 0.0:
+		return -left_value
+	elif right_value != 0.0:
+		return right_value
+	else:
+		return 0.0
 
 func get_wall_collider() -> Node2D:
 	var left = wall_raycasts.get_node("Left")	
@@ -535,25 +548,23 @@ func get_distance_from_wall() -> float:
 	var left = wall_raycasts.get_node("Left")	
 	var right = wall_raycasts.get_node("Right")	
 	var collision = func(node: Node): 
-		return (
-			Tracer.dbg("", node
+		return Utils.array_at(
+			node
 				.get_children()
 				.map(func(el): return el as RayCast2D)
 				.filter(func(el): return el)
-				.filter(func(el): return el.is_colliding())
-				.front()
-			)
+				.filter(func(el): return el.is_colliding()),
+			0
+			
 		)
 	var left_collider = collision.call(left)
 	var right_collider = collision.call(right)
-
-	if left_collider:
-		return left_collider.get_collision_point().distance_to(left_collider.global_position)
-	elif right_collider:
-		return right_collider.get_collision_point().distance_to(right_collider.global_position)
-	else:
-		return 0.0
-	
+	var collider = left_collider.or_else(right_collider)
+	match collider.expr():
+		{ "Some": var raycast }:
+			return raycast.get_collision_point().distance_to(raycast.global_position)
+		_:
+			return 0.0
  
 func on_wall() -> bool:
 	return wall_axis() != 0.0

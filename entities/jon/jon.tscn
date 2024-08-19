@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=74 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://de505ot6unmrs" path="res://entities/rope/rope.tscn" id="12_qymx8"]
 [ext_resource type="Script" path="res://components/collectibles_detector.gd" id="13_82xhg"]
 [ext_resource type="Script" path="res://components/debug_fly.gd" id="14_bih57"]
+[ext_resource type="Texture2D" uid="uid://dqi4k51m10g2i" path="res://entities/effects/dust.png" id="15_hi53y"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -1199,7 +1200,21 @@ graph_offset = Vector2(18, 51)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sw2p4"]
 size = Vector2(12, 20)
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox") groups=["jon"]]
+[sub_resource type="Curve" id="Curve_grllv"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), -3.21749, -3.21749, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_uhid8"]
+curve = SubResource("Curve_grllv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o03ec"]
+particle_flag_disable_z = true
+angle_min = -122.8
+angle_max = 8.90001
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_uhid8")
+
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox", "wall_dust") groups=["jon"]]
 collision_layer = 33
 collision_mask = 258
 script = ExtResource("1_hssag")
@@ -1215,6 +1230,7 @@ stamina_anim = NodePath("StaminaFlash")
 pivot = NodePath("Pivot")
 piton_spawn = NodePath("Pivot/PitonSpawn")
 hurtbox = NodePath("Hurtbox")
+wall_dust = NodePath("WallDust")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1528,22 +1544,22 @@ collision_mask = 2
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot/WallRaycasts/Right"]
 position = Vector2(0, 11)
-target_position = Vector2(16, 0)
+target_position = Vector2(12, 0)
 collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Right"]
-target_position = Vector2(16, 0)
+target_position = Vector2(12, 0)
 collision_mask = 2
 
 [node name="Left" type="Node2D" parent="Pivot/WallRaycasts"]
 
 [node name="RayCast2D" type="RayCast2D" parent="Pivot/WallRaycasts/Left"]
 position = Vector2(0, 11)
-target_position = Vector2(-16, 0)
+target_position = Vector2(-12, 0)
 collision_mask = 2
 
 [node name="RayCast2D2" type="RayCast2D" parent="Pivot/WallRaycasts/Left"]
-target_position = Vector2(-16, 0)
+target_position = Vector2(-12, 0)
 collision_mask = 2
 
 [node name="Rope" parent="Pivot" instance=ExtResource("12_qymx8")]
@@ -1601,3 +1617,11 @@ debug_color = Color(0.970495, 0, 0.404173, 0.0509804)
 
 [node name="DebugFly" type="Node" parent="."]
 script = ExtResource("14_bih57")
+
+[node name="WallDust" type="GPUParticles2D" parent="."]
+z_index = 3
+position = Vector2(25, 23)
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_o03ec")
+texture = ExtResource("15_hi53y")
+lifetime = 0.5
