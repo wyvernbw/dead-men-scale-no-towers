@@ -115,6 +115,7 @@ class WallGrab:
 	extends MoveState
 
 	var elapsed: float
+	var climbing_over: bool = false
 
 	func enter(jon: Jon) -> WallGrab:
 		jon.jump_state.transition(JumpStateWallGrab.new())
@@ -132,9 +133,16 @@ class WallGrab:
 		jon.velocity.y = jon.move_speed / 4.0 * climb_dir
 		jon.velocity.x = 0.0
 		elapsed = jon.drain_stamina(elapsed + delta, Jon.WALL_STAMINA_DRAIN)
+		var axis = jon.wall_axis()
+		if jon.get_wall_collision_count(axis) == 1:
+			# climb over wall
+			jon.velocity = Vector2.UP * jon.jump_speed * 2.0
+			climbing_over = true
 		if not jon.has_stamina():
 			return Moving.new()
-		if is_zero_approx(jon.wall_axis()):
+		if is_zero_approx(axis):
+			if climbing_over:
+				jon.velocity = Vector2(axis, -1.0) * jon.jump_speed
 			return Moving.new()
 		if not Input.is_action_pressed("wall_grab"):
 			Tracer.info("Released wall grab")
@@ -520,6 +528,23 @@ func wall_axis() -> float:
 		return right_value
 	else:
 		return 0.0
+
+func get_wall_collision_count(axis: float) -> int:
+	var raycasts
+	if sign(axis) == 1.0:
+		raycasts = wall_raycasts.get_node("Right")
+	elif sign(axis) == -1.0:
+		raycasts = wall_raycasts.get_node("Left")
+	else:
+		return 0
+	return (
+		raycasts
+			.get_children()
+			.filter(func(el): return el is RayCast2D)
+			.filter(func(el: RayCast2D): return el.is_colliding())
+			.size()
+	)
+		
 
 func get_wall_collider() -> Node2D:
 	var left = wall_raycasts.get_node("Left")	
