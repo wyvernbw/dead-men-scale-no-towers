@@ -491,7 +491,6 @@ func _physics_process(delta: float) -> void:
 		sprites_node.skew = lerp(0.0, sign(velocity.x) * deg_to_rad(20.0), abs(velocity.x) / move_speed)
 	else:
 		sprites_node.skew = 0.0
-	Tracer.info(move_state.current_state.name() + str(wall_axis()))
 	move_state.physics_process(delta)
 	jump_state.physics_process(delta)
 	movable.update(delta)

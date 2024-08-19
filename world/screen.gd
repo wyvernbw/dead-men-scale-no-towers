@@ -15,7 +15,16 @@ extends Node2D
 	).unwrap()
 )
 
+@onready var campfire: Maybe = (
+	Maybe.new(
+		get_children()
+		.filter(func(el): return el is Campfire)
+		.front()
+	)
+)
+
 func _ready() -> void:
+	Events.progress[self.name] = false
 	for el in get_children():
 		if el is ScreenGate and next_screen:
 			el.next_screen = next_screen

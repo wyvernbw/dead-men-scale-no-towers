@@ -2,6 +2,8 @@ extends Node
 
 const PAUSE_ON_DEATH := false
 
+var progress = {}
+
 func _ready() -> void:
 	TraceSubscriber.new().init()
 	process_mode = PROCESS_MODE_ALWAYS

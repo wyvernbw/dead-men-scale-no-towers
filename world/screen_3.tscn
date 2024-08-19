@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://b822mit6xaiyk"]
+[gd_scene load_steps=9 format=4 uid="uid://b822mit6xaiyk"]
 
 [ext_resource type="Script" path="res://world/screen.gd" id="1_qgatc"]
 [ext_resource type="TileSet" uid="uid://byjjmm6xs8nr8" path="res://world/assets/brick_tileset.tres" id="2_j112h"]
 [ext_resource type="Script" path="res://components/next_screen_gate.gd" id="3_46lrj"]
 [ext_resource type="Script" path="res://components/screen_initial_position.gd" id="4_xs01y"]
 [ext_resource type="Script" path="res://components/hitbox.gd" id="5_ehjy5"]
+[ext_resource type="PackedScene" uid="uid://2cvqyy26aa0h" path="res://world/objects/campfire.tscn" id="6_5biyk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ths8g"]
 size = Vector2(16, 16)
@@ -55,3 +56,6 @@ script = ExtResource("5_ehjy5")
 position = Vector2(0, 16)
 shape = SubResource("WorldBoundaryShape2D_ysucu")
 debug_color = Color(0.99, 0, 0.2475, 1)
+
+[node name="Campfire" parent="." instance=ExtResource("6_5biyk")]
+position = Vector2(48, 0)

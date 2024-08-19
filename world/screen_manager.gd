@@ -29,3 +29,17 @@ func on_jon_died(jon: Jon) -> void:
 func set_current_screen(value: Screen) -> void:
 	current_screen = value
 	Bgm.play_track(current_screen.bgm_track)
+	if not current_screen.campfire:
+		await current_screen.ready
+		await get_tree().process_frame
+	match current_screen.campfire.expr():
+		{ "Some": var campfire }:
+			if not Events.progress[current_screen.name]:
+				campfire.anim.play("ignite")
+				await campfire.anim.animation_finished
+				campfire.anim.play("idle_ignited")
+				Tracer.info("Ignited campfire")
+			else:
+				campfire.anim.play("idle_ignited")
+	Events.progress[current_screen.name] = true
+	Tracer.info(str(Events.progress))

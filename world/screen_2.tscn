@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://c1fgwyjhir5yt"]
+[gd_scene load_steps=10 format=4 uid="uid://c1fgwyjhir5yt"]
 
 [ext_resource type="Script" path="res://world/screen.gd" id="1_s05vi"]
 [ext_resource type="TileSet" uid="uid://byjjmm6xs8nr8" path="res://world/assets/brick_tileset.tres" id="2_8q6yn"]
 [ext_resource type="Script" path="res://components/next_screen_gate.gd" id="3_d1d2p"]
 [ext_resource type="Script" path="res://components/screen_initial_position.gd" id="4_p83ws"]
 [ext_resource type="Script" path="res://components/hitbox.gd" id="5_m815d"]
+[ext_resource type="PackedScene" uid="uid://2cvqyy26aa0h" path="res://world/objects/campfire.tscn" id="5_y8flm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pbft1"]
 size = Vector2(16, 400)
@@ -52,6 +53,9 @@ script = ExtResource("3_d1d2p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NextScreenGate"]
 shape = SubResource("WorldBoundaryShape2D_6gy3m")
 debug_color = Color(0.93, 0, 0.6355, 0.286275)
+
+[node name="Campfire" parent="." instance=ExtResource("5_y8flm")]
+position = Vector2(176, 0)
 
 [node name="ScreenInitialPosition" type="Node2D" parent="."]
 position = Vector2(176, -16)
