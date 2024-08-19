@@ -100,6 +100,10 @@ piton={
 ]
 }
 
+[phantom_camera]
+
+tips/show_jitter_tips=false
+
 [physics]
 
 2d/physics_engine="GodotPhysics2D"

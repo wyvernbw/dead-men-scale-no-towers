@@ -16,8 +16,8 @@ func _ready() -> void:
 func get_cameras() -> Dictionary:
 	return (target
 		.get_children()
-		.filter(func(el): el is PhantomCamera2D)
-		.reduce(func(dict, el): dict[el.name] = el; return dict)
+		.filter(func(el): return el is PhantomCamera2D)
+		.reduce(func(dict, el): dict[el.name] = el; return dict, {})
 	)
 
 func switch_camera(id: String) -> void:

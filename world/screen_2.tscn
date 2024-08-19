@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=4 uid="uid://c1fgwyjhir5yt"]
+
+[ext_resource type="Script" path="res://world/screen.gd" id="1_s05vi"]
+[ext_resource type="TileSet" uid="uid://byjjmm6xs8nr8" path="res://world/assets/brick_tileset.tres" id="2_8q6yn"]
+[ext_resource type="Script" path="res://components/next_screen_gate.gd" id="3_d1d2p"]
+[ext_resource type="Script" path="res://components/screen_initial_position.gd" id="4_p83ws"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pbft1"]
+size = Vector2(16, 400)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6gy3m"]
+normal = Vector2(0, 1)
+
+[node name="Screen1" type="Node2D"]
+script = ExtResource("1_s05vi")
+
+[node name="TileMapLayer3" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_8q6yn")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAOAAAAAAAJAAIAAAAPAAAAAAAJAAIAAAAQAAAAAAAJAAIAAAARAAAAAAAJAAIAAAASAAAAAAAJAAIAAAATAAAAAAAJAAIAAAAUAAAAAAAJAAIAAAAVAAAAAAAJAAIAAAAWAAAAAAAJAAIAAAAXAAAAAAAJAAIAAAANAAAAAAAIAAEAAAAYAAAAAAALAAIAAAA=")
+tile_set = ExtResource("2_8q6yn")
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+z_index = -1
+tile_map_data = PackedByteArray("AAANAAAAAwAIAAMAAAAOAAAAAwAJAAMAAAAPAAAAAwAJAAMAAAAQAAAAAAAJAAMAAAARAAAAAwAJAAMAAAASAAAAAwAJAAMAAAATAAAAAwAJAAMAAAAUAAAAAwAJAAMAAAAVAAAAAwAJAAMAAAAWAAAAAwAJAAMAAAAXAAAAAAAJAAMAAAAXAP//AwAJAAIAAAAWAP//AwAJAAIAAAAVAP//AAAJAAIAAAAUAP//AwAJAAIAAAATAP//AwAJAAIAAAASAP//AwAJAAIAAAARAP//AAAJAAIAAAAQAP//AwAJAAIAAAAPAP//AwAJAAIAAAAOAP//AwAJAAIAAAANAP//AAAIAAEAAAANAP7/AAAIAAEAAAAOAP7/AwAJAAIAAAAPAP7/AAAJAAIAAAAQAP7/AwAJAAIAAAARAP7/AwAJAAIAAAASAP7/AwAJAAIAAAATAP7/AwAJAAIAAAAUAP7/AAAJAAIAAAAVAP7/AwAJAAIAAAAWAP7/AwAJAAIAAAAXAP7/AwAJAAIAAAAYAP7/AwALAAIAAAAYAP//AwALAAIAAAAYAAAAAwALAAMAAAAYAP3/AwALAAIAAAAXAP3/AwAJAAIAAAAWAP3/AwAJAAIAAAAVAP3/AAAJAAIAAAAUAP3/AAAJAAIAAAATAP3/AwAJAAIAAAASAP3/AAAJAAIAAAARAP3/AwAJAAIAAAAQAP3/AwAJAAIAAAAPAP3/AAAJAAIAAAAOAP3/AAAJAAIAAAANAP3/AwAIAAEAAAANAPz/AAAIAAAAAAAOAPz/AwAKAAAAAAAPAPz/AAAKAAAAAAAQAPz/AwAKAAAAAAARAPz/AAAKAAAAAAASAPz/AAAKAAAAAAATAPz/AAAKAAAAAAAUAPz/AAAKAAAAAAAVAPz/AAAKAAAAAAAWAPz/AwAKAAAAAAAXAPz/AwAKAAAAAAAYAPz/AAALAAAAAAA=")
+tile_set = ExtResource("2_8q6yn")
+
+[node name="TileMapLayer4" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_8q6yn")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-16, -80)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_pbft1")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(384, -80)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(8, 8)
+shape = SubResource("RectangleShape2D_pbft1")
+
+[node name="NextScreenGate" type="Area2D" parent="."]
+position = Vector2(0, -272)
+script = ExtResource("3_d1d2p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NextScreenGate"]
+shape = SubResource("WorldBoundaryShape2D_6gy3m")
+debug_color = Color(0.93, 0, 0.6355, 0.286275)
+
+[node name="ScreenInitialPosition" type="Node2D" parent="."]
+position = Vector2(176, -16)
+script = ExtResource("4_p83ws")

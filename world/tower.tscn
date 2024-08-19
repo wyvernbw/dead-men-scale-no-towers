@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=15 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
+[ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
 [ext_resource type="Texture2D" uid="uid://bwjl8bpmh8khg" path="res://world/assets/forest_background.png" id="2_406jw"]
 [ext_resource type="PackedScene" uid="uid://c306otuxdrvff" path="res://world/screen_1.tscn" id="3_13xq0"]
+[ext_resource type="PackedScene" uid="uid://c1fgwyjhir5yt" path="res://world/screen_2.tscn" id="4_2t28d"]
 [ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="4_y7i2i"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_056ad"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
@@ -21,9 +23,9 @@ width = 16
 
 [sub_resource type="Resource" id="Resource_c1a14"]
 script = ExtResource("6_a0gtk")
-duration = 1.0
-transition = 0
-ease = 2
+duration = 0.5
+transition = 2
+ease = 1
 
 [sub_resource type="Environment" id="Environment_c70h1"]
 background_mode = 3
@@ -36,6 +38,9 @@ adjustment_brightness = 0.8
 adjustment_saturation = 1.1
 
 [node name="Tower" type="Node2D"]
+
+[node name="ScreenManager" type="Node" parent="."]
+script = ExtResource("1_q5mnp")
 
 [node name="CameraManager" type="Node" parent="." node_paths=PackedStringArray("initial_camera")]
 script = ExtResource("1_jpml2")
@@ -71,8 +76,14 @@ offset_bottom = 192.0
 mouse_filter = 2
 color = Color(0.99, 0.969375, 0.7425, 0.129412)
 
-[node name="Screen1" parent="." instance=ExtResource("3_13xq0")]
+[node name="Screen1" parent="." node_paths=PackedStringArray("next_screen") instance=ExtResource("3_13xq0")]
 initial_screen = true
+next_screen = NodePath("../Screen2")
+
+[node name="Screen2" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("4_2t28d")]
+z_index = 1
+position = Vector2(0, -288)
+previous_screen = NodePath("../Screen1")
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
 position = Vector2(16, 80)
@@ -83,6 +94,7 @@ script = ExtResource("5_056ad")
 follow_mode = 5
 follow_target = NodePath("../Jon")
 tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
 dead_zone_width = 0.5
 dead_zone_height = 0.5
 draw_limits = true
@@ -91,13 +103,26 @@ limit_top = -272
 limit_right = 320
 limit_bottom = 180
 
+[node name="CamScreen2" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(160, -346)
+script = ExtResource("5_056ad")
+follow_mode = 2
+follow_target = NodePath("../Jon")
+tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
+dead_zone_width = 0.5
+dead_zone_height = 0.5
+draw_limits = true
+limit_left = 0
+limit_right = 320
+limit_bottom = -256
+
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-position = Vector2(160, 80)
+position = Vector2(160, -346)
 limit_left = 0
-limit_top = -272
 limit_right = 320
-limit_bottom = 180
+limit_bottom = -256
 position_smoothing_speed = 32.0
 editor_draw_limits = true
 

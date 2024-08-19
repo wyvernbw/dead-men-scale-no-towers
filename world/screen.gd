@@ -22,13 +22,3 @@ func _ready() -> void:
 			el.next_screen_id = next_screen.name
 		elif el is PreviousScreenGate and previous_screen:
 			el.next_screen_id = previous_screen.name
-	for jon: Jon in (get_tree()
-		.get_nodes_in_group("jon")
-		.map(func(el): return el as Jon)
-		.filter(func(el): return el)
-	):
-		jon.died.connect(on_jon_died)
-
-func on_jon_died(jon: Jon) -> void:
-	# TODO: death animation
-	jon.global_position = initial_position.global_position

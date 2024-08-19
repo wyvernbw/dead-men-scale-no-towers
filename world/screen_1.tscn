@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=4 uid="uid://c306otuxdrvff"]
 
-[ext_resource type="Script" path="res://world/level.gd" id="1_l55ca"]
+[ext_resource type="Script" path="res://world/screen.gd" id="1_l55ca"]
 [ext_resource type="TileSet" uid="uid://byjjmm6xs8nr8" path="res://world/assets/brick_tileset.tres" id="2_ejc0g"]
 [ext_resource type="Script" path="res://components/next_screen_gate.gd" id="3_g2oad"]
 [ext_resource type="Script" path="res://components/screen_initial_position.gd" id="4_a5itm"]

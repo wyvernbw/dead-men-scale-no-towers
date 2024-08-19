@@ -27,7 +27,7 @@ func _ready() -> void:
 				.tween_property(
 					jon, "global_position",
 					next_screen.initial_position.global_position,
-					1.0
+					0.25
 				))
 
 	)
