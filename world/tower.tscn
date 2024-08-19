@@ -1,14 +1,41 @@
-[gd_scene load_steps=15 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=20 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
 [ext_resource type="Texture2D" uid="uid://bwjl8bpmh8khg" path="res://world/assets/forest_background.png" id="2_406jw"]
 [ext_resource type="PackedScene" uid="uid://c306otuxdrvff" path="res://world/screen_1.tscn" id="3_13xq0"]
 [ext_resource type="PackedScene" uid="uid://c1fgwyjhir5yt" path="res://world/screen_2.tscn" id="4_2t28d"]
+[ext_resource type="Texture2D" uid="uid://cw8m0ngcb4o7x" path="res://world/assets/leaves.png" id="4_gmn8d"]
 [ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="4_y7i2i"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_056ad"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_7v2h5"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0dxju"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_xkx2l"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, -360), 0.0, 0.0, 0, 0, Vector2(0.99999, 360), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_7wgw8"]
+curve = SubResource("Curve_xkx2l")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qo7c0"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 512, 1)
+angle_min = -114.3
+angle_max = 250.4
+angle_curve = SubResource("CurveTexture_7wgw8")
+gravity = Vector3(-12, 4, 0)
+anim_offset_max = 1.0
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0fc3i"]
 blend_mode = 3
@@ -46,6 +73,17 @@ script = ExtResource("1_q5mnp")
 script = ExtResource("1_jpml2")
 initial_camera = NodePath("../CamScreen1")
 
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+z_index = 16
+material = SubResource("CanvasItemMaterial_0dxju")
+position = Vector2(544, -320)
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_qo7c0")
+texture = ExtResource("4_gmn8d")
+lifetime = 32.0
+preprocess = 14.15
+visibility_rect = Rect2(-28851.9, -5747.48, 28876.9, 31558.4)
+
 [node name="Parallax2D" type="Parallax2D" parent="."]
 scroll_scale = Vector2(0.01, 0.1)
 scroll_offset = Vector2(0, 96)
@@ -58,6 +96,16 @@ texture = ExtResource("2_406jw")
 [node name="Node2D" type="Node2D" parent="Parallax2D"]
 z_index = -1
 position = Vector2(0, -48)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D/Node2D"]
+material = SubResource("CanvasItemMaterial_0dxju")
+position = Vector2(544, -368)
+amount = 512
+process_material = SubResource("ParticleProcessMaterial_qo7c0")
+texture = ExtResource("4_gmn8d")
+lifetime = 32.0
+preprocess = 14.15
+visibility_rect = Rect2(-28851.9, -5747.48, 28876.9, 31558.4)
 
 [node name="TextureRect" type="TextureRect" parent="Parallax2D/Node2D"]
 material = SubResource("CanvasItemMaterial_0fc3i")
@@ -119,10 +167,11 @@ limit_bottom = -256
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1
-position = Vector2(160, -346)
+position = Vector2(160, 80)
 limit_left = 0
+limit_top = -272
 limit_right = 320
-limit_bottom = -256
+limit_bottom = 180
 position_smoothing_speed = 32.0
 editor_draw_limits = true
 
