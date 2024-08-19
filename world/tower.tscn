@@ -126,6 +126,7 @@ color = Color(0.99, 0.969375, 0.7425, 0.129412)
 
 [node name="Screen1" parent="." node_paths=PackedStringArray("next_screen") instance=ExtResource("3_13xq0")]
 initial_screen = true
+bgm_track = "the_night_before_battle.mp3"
 next_screen = NodePath("../Screen2")
 
 [node name="Screen2" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("4_2t28d")]

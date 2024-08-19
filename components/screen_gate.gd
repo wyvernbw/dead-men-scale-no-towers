@@ -21,6 +21,12 @@ func _ready() -> void:
 			var id = "Cam" + next_screen_id
 			for manager in managers:
 				manager.switch_camera(id)
+			for screen_manager in (
+				get_tree()
+					.get_nodes_in_group("screen_managers")
+					.filter(func(el): return el is ScreenManager)
+			) as Array[ScreenManager]:
+				screen_manager.current_screen = next_screen
 			(create_tween()
 				.set_ease(Tween.EASE_OUT)
 				.set_trans(Tween.TRANS_BOUNCE)

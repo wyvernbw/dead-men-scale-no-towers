@@ -2,6 +2,7 @@ class_name Screen
 extends Node2D
 
 @export var initial_screen := false
+@export var bgm_track := ""
 
 @export var next_screen: Screen
 @export var previous_screen: Screen

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://748nar0nmpva"]
+
+[ext_resource type="Script" path="res://share/bgm.gd" id="1_emsk8"]
+
+[node name="BGM" type="AudioStreamPlayer"]
+bus = &"BGM"
+script = ExtResource("1_emsk8")

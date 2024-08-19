@@ -20,6 +20,7 @@ Events="*res://share/events.gd"
 Tracer="*res://addons/tracer/./tracer.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
+Bgm="*res://share/bgm.tscn"
 
 [debug]
 
