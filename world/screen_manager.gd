@@ -25,6 +25,8 @@ func _ready() -> void:
 func on_jon_died(jon: Jon) -> void:
 	# TODO: death animation
 	jon.global_position = current_screen.initial_position.global_position
+	for gem: PitonGem in get_tree().get_nodes_in_group("piton_gems"):
+		gem.reset()
 
 func set_current_screen(value: Screen) -> void:
 	current_screen = value

@@ -131,15 +131,24 @@ class WallGrab:
 		jon.velocity.x = 0.0
 		elapsed = jon.drain_stamina(elapsed + delta, Jon.WALL_STAMINA_DRAIN)
 		var axis = jon.wall_axis()
-		if jon.get_wall_collision_count(axis) == 1:
+		if jon.get_wall_collision_count(axis) == 1 and climb_dir == -1.0:
 			# climb over wall
-			jon.velocity = Vector2.UP * jon.jump_speed * 2.0
-			climbing_over = true
+			# jon.velocity = Vector2.UP * jon.jump_speed * 2.0
+			var climb_tween = (jon.create_tween()
+				.set_ease(Tween.EASE_OUT)
+				.set_trans(Tween.TRANS_QUAD))
+			(climb_tween
+				.tween_property(
+					jon, "global_position",
+					Vector2(axis * 4.0, -4.0), 0.1
+				).as_relative())
+			jon.died.connect(func(_arg): climb_tween.kill(), CONNECT_ONE_SHOT)
+			# climbing_over = true
 		if not jon.has_stamina():
 			return Moving.new()
 		if is_zero_approx(axis):
-			if climbing_over:
-				jon.velocity = Vector2(axis, -1.0) * jon.jump_speed
+			# if climbing_over:
+			# 	jon.velocity = Vector2(axis, -1.0) * jon.jump_speed
 			return Moving.new()
 		if not Input.is_action_pressed("wall_grab"):
 			Tracer.info("Released wall grab")
@@ -325,7 +334,9 @@ class JumpStateWallGrab:
 	func enter(jon: Jon) -> JumpState:
 		match await Async.select([jon.jump_input, self.fell_off]):
 			{ 0: _ }:
-				if MoveState.get_x_move_dir() == 0.0:
+				var move_dir = MoveState.get_x_move_dir()
+				var wall_axis = jon.wall_axis()
+				if move_dir == 0.0 or sign(move_dir) == sign(wall_axis):
 					return ClimbJump.new()
 				else:
 					return WallJump.new()
@@ -476,6 +487,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			piton.global_position = piton_spawn.global_position
 			pitons -= 1
 			add_sibling(piton)
+			died.connect(func(_arg): 
+				if piton: piton.queue_free(), 
+				CONNECT_ONE_SHOT
+			)
 			await piton.hit
 			current_piton = Maybe.new(piton)
 		elif current_piton.is_some():

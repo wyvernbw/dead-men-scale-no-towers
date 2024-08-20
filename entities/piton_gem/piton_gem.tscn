@@ -264,6 +264,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="PointLight2D" type="PointLight2D" parent="Sprite2D"]
+show_behind_parent = true
 texture_filter = 1
 position = Vector2(8, 8)
 texture = SubResource("GradientTexture2D_quk4m")

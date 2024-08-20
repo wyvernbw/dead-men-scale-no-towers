@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
 		dir * max_speed,
 		delta * accel
 	)
-	if initial_position.distance_to(self.global_position) > ROPE_LENGTH + 64:
+	if initial_position.distance_to(self.global_position) > ROPE_LENGTH + 32:
 		queue_free()
 		return
 	if is_on_floor() or is_on_ceiling() or is_on_wall():
