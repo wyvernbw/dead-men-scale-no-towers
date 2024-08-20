@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5ibx5hau2rgw"]
+
+[ext_resource type="Shader" path="res://entities/effects/screen_shake.gdshader" id="1_2ts4x"]
+[ext_resource type="Script" path="res://components/vfx_layer.gd" id="1_8pb71"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4ygxn"]
+shader = ExtResource("1_2ts4x")
+shader_parameter/strength = 2.0
+shader_parameter/speed = 48.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_35h22"]
+shader = ExtResource("1_2ts4x")
+shader_parameter/strength = 1.0
+shader_parameter/speed = 48.0
+
+[node name="VfxLayer" type="CanvasLayer" node_paths=PackedStringArray("screen_shake_strong_layer", "screen_shake_weak_layer")]
+process_mode = 3
+script = ExtResource("1_8pb71")
+screen_shake_strong_layer = NodePath("ScreenShakeStrong")
+screen_shake_weak_layer = NodePath("ScreenShakeWeak")
+
+[node name="ScreenShakeStrong" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_4ygxn")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScreenShakeWeak" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_35h22")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
