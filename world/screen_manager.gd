@@ -34,12 +34,17 @@ func set_current_screen(value: Screen) -> void:
 		await get_tree().process_frame
 	match current_screen.campfire.expr():
 		{ "Some": var campfire }:
-			if not Events.progress[current_screen.name]:
-				campfire.anim.play("ignite")
-				await campfire.anim.animation_finished
-				campfire.anim.play("idle_ignited")
-				Tracer.info("Ignited campfire")
-			else:
-				campfire.anim.play("idle_ignited")
+			match campfire.mode:
+				Campfire.CampfireMode.Ignite when not Events.progress[current_screen.name]:
+					campfire.anim.play("ignite")
+					await campfire.anim.animation_finished
+					campfire.anim.play("idle_ignited")
+					Tracer.info("Ignited campfire")
+				Campfire.CampfireMode.Ignite when Events.progress[current_screen.name]:
+					campfire.anim.play("idle_ignited")
+				Campfire.CampfireMode.AlwaysIgnited:
+					campfire.anim.play("idle_ignited")
+				Campfire.CampfireMode.NeverIgnited:
+					campfire.anim.play("idle")
 	Events.progress[current_screen.name] = true
 	Tracer.info(str(Events.progress))

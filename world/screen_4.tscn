@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://b1m3ccndabecr"]
+[gd_scene load_steps=10 format=4 uid="uid://b1m3ccndabecr"]
 
 [ext_resource type="Script" path="res://world/screen.gd" id="1_5lw2v"]
 [ext_resource type="TileSet" uid="uid://byjjmm6xs8nr8" path="res://world/assets/brick_tileset.tres" id="2_8xcqr"]
@@ -7,8 +7,11 @@
 [ext_resource type="Script" path="res://components/hitbox.gd" id="5_35882"]
 [ext_resource type="PackedScene" uid="uid://2cvqyy26aa0h" path="res://world/objects/campfire.tscn" id="6_aokub"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ths8g"]
-size = Vector2(16, 16)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fjb4d"]
+size = Vector2(32, 16)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_h4nib"]
+normal = Vector2(0, 1)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ysucu"]
 distance = -16.0
@@ -40,8 +43,13 @@ position = Vector2(256, -304)
 script = ExtResource("3_0detv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NextScreenGate"]
-position = Vector2(8, 8)
-shape = SubResource("RectangleShape2D_ths8g")
+position = Vector2(0, 40)
+shape = SubResource("RectangleShape2D_fjb4d")
+debug_color = Color(0.93, 0, 0.6355, 0.286275)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="NextScreenGate"]
+position = Vector2(-192, 48)
+shape = SubResource("WorldBoundaryShape2D_h4nib")
 debug_color = Color(0.93, 0, 0.6355, 0.286275)
 
 [node name="ScreenInitialPosition" type="Node2D" parent="."]
