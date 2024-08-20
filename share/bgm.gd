@@ -3,7 +3,8 @@ extends AudioStreamPlayer
 const BGM_DIR := "res://world/assets/bgm/"
 
 var tracks := {
-	"the_night_before_battle.mp3": preload(BGM_DIR + "the_night_before_battle.mp3")
+	"the_night_before_battle.mp3": preload(BGM_DIR + "the_night_before_battle.mp3"),
+	"the_elben_castle.mp3": preload(BGM_DIR + "the_elben_castle.mp3")
 }
 var current_track: Maybe = Maybe.None()
 
