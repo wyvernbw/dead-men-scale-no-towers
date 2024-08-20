@@ -7,3 +7,6 @@
 [submodule "share/tracer"]
 	path = share/tracer
 	url = git@github.com:wyvernbw/tracer.gd.git
+[submodule "share/inkgd"]
+	path = share/inkgd
+	url = git@github.com:ephread/inkgd.git
