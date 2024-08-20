@@ -1,8 +1,10 @@
 extends Node
 
+signal made_progress
+
 const PAUSE_ON_DEATH := false
 
-var progress = {}
+var progress = {}: set = set_progress
 var current_rita_dialogue := "FirstEncounter"
 var rita_dialogue_exhausted := false
 
@@ -18,3 +20,7 @@ func _input(event: InputEvent) -> void:
 			DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_FULLSCREEN)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WindowMode.WINDOW_MODE_WINDOWED)
+
+func set_progress(value) -> void:
+	progress = value
+	made_progress.emit()
