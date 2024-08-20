@@ -4,6 +4,7 @@ const PAUSE_ON_DEATH := false
 
 var progress = {}
 var current_rita_dialogue := "FirstEncounter"
+var rita_dialogue_exhausted := false
 
 func _ready() -> void:
 	TraceSubscriber.new().init()

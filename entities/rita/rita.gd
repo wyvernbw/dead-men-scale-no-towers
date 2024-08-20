@@ -13,6 +13,8 @@ func _ready() -> void:
 		func(body: Jon):
 			if not body:
 				return
+			if Events.rita_dialogue_exhausted:
+				return
 			Tracer.info(Events.current_rita_dialogue)
 			actor_component.start_dialogue(ink_player())
 	)
@@ -27,6 +29,8 @@ func _ready() -> void:
 	)
 	actor_component.dialogue_ended.connect(
 		func(player):
+			if player == get_node("FirstEncounter"):
+				Events.rita_dialogue_exhausted = true
 			if player == get_node("Interrupted"):
 				Events.current_rita_dialogue = interrupted_dialogue
 				actor_component.start_dialogue(ink_player())

@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5kcjxpdcnwwx"]
+
+[ext_resource type="Theme" uid="uid://dwb6kbnquwyb2" path="res://components/gui/assets/dialogue_box.tres" id="1_8bm66"]
+[ext_resource type="Script" path="res://components/gui/choice_box.gd" id="2_vfb8k"]
+[ext_resource type="PackedScene" uid="uid://wpivbvev5ba2" path="res://components/gui/choice_button.tscn" id="3_xl2i5"]
+
+[node name="ChoiceBox" type="PanelContainer" node_paths=PackedStringArray("choices_container")]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 288.0
+offset_bottom = 64.0
+theme = ExtResource("1_8bm66")
+script = ExtResource("2_vfb8k")
+choices_container = NodePath("MarginContainer/VBoxContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ChoiceButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_xl2i5")]
+layout_mode = 2
+
+[node name="ChoiceButton2" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_xl2i5")]
+layout_mode = 2
+text = "Option #2
+"
