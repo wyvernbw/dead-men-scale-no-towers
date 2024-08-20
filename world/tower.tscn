@@ -1,9 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=31 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
 [ext_resource type="Texture2D" uid="uid://bwjl8bpmh8khg" path="res://world/assets/forest_background.png" id="2_406jw"]
 [ext_resource type="PackedScene" uid="uid://c306otuxdrvff" path="res://world/screen_1.tscn" id="3_13xq0"]
+[ext_resource type="Texture2D" uid="uid://dhpylrt1hrvlg" path="res://world/assets/wind.png" id="3_rehke"]
+[ext_resource type="Texture2D" uid="uid://cxfdc0xbsabqq" path="res://world/assets/snow.png" id="3_rgexe"]
 [ext_resource type="PackedScene" uid="uid://c1fgwyjhir5yt" path="res://world/screen_2.tscn" id="4_2t28d"]
 [ext_resource type="Texture2D" uid="uid://cw8m0ngcb4o7x" path="res://world/assets/leaves.png" id="4_gmn8d"]
 [ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="4_y7i2i"]
@@ -15,6 +17,30 @@
 [ext_resource type="PackedScene" uid="uid://be670fgtey24a" path="res://world/screen_6.tscn" id="10_5pcdh"]
 [ext_resource type="PackedScene" uid="uid://cahtn5gt6l3jm" path="res://world/screen_7.tscn" id="11_ouckt"]
 [ext_resource type="PackedScene" uid="uid://c8rqvr5bn4oyl" path="res://world/screen_5.tscn" id="13_gesug"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fo5l8"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 512, 1)
+gravity = Vector3(-64, 32, 0)
+scale_min = 0.5
+
+[sub_resource type="Gradient" id="Gradient_3in0v"]
+offsets = PackedFloat32Array(0, 0.489627, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_f1i85"]
+gradient = SubResource("Gradient_3in0v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8lr4f"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 1024, 1)
+gravity = Vector3(-128, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+color = Color(1, 1, 1, 0.6)
+color_initial_ramp = SubResource("GradientTexture1D_f1i85")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0dxju"]
 particles_animation = true
@@ -35,7 +61,7 @@ curve = SubResource("Curve_xkx2l")
 particle_flag_align_y = true
 particle_flag_disable_z = true
 emission_shape = 3
-emission_box_extents = Vector3(1, 512, 1)
+emission_box_extents = Vector3(1, 768, 1)
 angle_min = -114.3
 angle_max = 250.4
 angle_curve = SubResource("CurveTexture_7wgw8")
@@ -80,6 +106,28 @@ script = ExtResource("1_q5mnp")
 script = ExtResource("1_jpml2")
 initial_camera = NodePath("../CamScreen1")
 
+[node name="Snow1" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(624, -2096)
+amount = 512
+process_material = SubResource("ParticleProcessMaterial_fo5l8")
+texture = ExtResource("3_rgexe")
+lifetime = 32.0
+preprocess = 32.0
+visibility_rect = Rect2(-32707.8, -441.784, 32716.2, 17001.1)
+
+[node name="Wind" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(2160, -1984)
+amount = 1024
+process_material = SubResource("ParticleProcessMaterial_8lr4f")
+texture = ExtResource("3_rehke")
+lifetime = 32.0
+preprocess = 32.0
+visibility_rect = Rect2(-18904.4, -1031.88, 18913.3, 2060.84)
+trail_enabled = true
+trail_section_subdivisions = 6
+
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
 z_index = 16
 material = SubResource("CanvasItemMaterial_0dxju")
@@ -88,11 +136,11 @@ amount = 64
 process_material = SubResource("ParticleProcessMaterial_qo7c0")
 texture = ExtResource("4_gmn8d")
 lifetime = 32.0
-preprocess = 14.15
-visibility_rect = Rect2(-28851.9, -5747.48, 28876.9, 31558.4)
+preprocess = 32.0
+visibility_rect = Rect2(-6175.34, -618.735, 6200.31, 3131.33)
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
-scroll_scale = Vector2(0.01, 0.1)
+scroll_scale = Vector2(0, 0.14)
 scroll_offset = Vector2(0, 96)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
@@ -111,8 +159,8 @@ amount = 512
 process_material = SubResource("ParticleProcessMaterial_qo7c0")
 texture = ExtResource("4_gmn8d")
 lifetime = 32.0
-preprocess = 14.15
-visibility_rect = Rect2(-28851.9, -5747.48, 28876.9, 31558.4)
+preprocess = 64.0
+visibility_rect = Rect2(-6175.02, -771.422, 6200.02, 3587.7)
 
 [node name="TextureRect" type="TextureRect" parent="Parallax2D/Node2D"]
 material = SubResource("CanvasItemMaterial_0fc3i")
@@ -130,6 +178,16 @@ offset_right = 608.0
 offset_bottom = 192.0
 mouse_filter = 2
 color = Color(0.99, 0.969375, 0.7425, 0.129412)
+
+[node name="Snow1" type="GPUParticles2D" parent="Parallax2D/Node2D"]
+z_index = -1
+position = Vector2(624, -2096)
+amount = 512
+process_material = SubResource("ParticleProcessMaterial_fo5l8")
+texture = ExtResource("3_rgexe")
+lifetime = 32.0
+preprocess = 32.0
+visibility_rect = Rect2(-32707.8, -441.784, 32716.2, 17001.1)
 
 [node name="Screen1" parent="." node_paths=PackedStringArray("next_screen") instance=ExtResource("3_13xq0")]
 initial_screen = true
@@ -271,7 +329,7 @@ dead_zone_height = 0.5
 draw_limits = true
 limit_left = -96
 limit_top = -1968
-limit_right = 320
+limit_right = 288
 limit_bottom = -1632
 
 [node name="Camera2D" type="Camera2D" parent="."]
