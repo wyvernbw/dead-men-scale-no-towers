@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=32 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://be670fgtey24a" path="res://world/screen_6.tscn" id="10_5pcdh"]
 [ext_resource type="PackedScene" uid="uid://cahtn5gt6l3jm" path="res://world/screen_7.tscn" id="11_ouckt"]
 [ext_resource type="PackedScene" uid="uid://c8rqvr5bn4oyl" path="res://world/screen_5.tscn" id="13_gesug"]
+[ext_resource type="PackedScene" uid="uid://bt2kmfqpny6kp" path="res://world/screen_8.tscn" id="14_y0q1y"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fo5l8"]
 particle_flag_disable_z = true
@@ -145,7 +146,13 @@ scroll_offset = Vector2(0, 96)
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 z_index = -2
-position = Vector2(144, -144)
+position = Vector2(160, -178)
+texture = ExtResource("2_406jw")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
+z_index = -2
+position = Vector2(160, -706)
+rotation = 3.14159
 texture = ExtResource("2_406jw")
 
 [node name="Node2D" type="Node2D" parent="Parallax2D"]
@@ -217,12 +224,18 @@ previous_screen = NodePath("../Screen4")
 
 [node name="Screen6" parent="." node_paths=PackedStringArray("next_screen", "previous_screen") instance=ExtResource("10_5pcdh")]
 position = Vector2(0, -1328)
+bgm_track = "misty_mountains.mp3"
 next_screen = NodePath("../Screen7")
 previous_screen = NodePath("../Screen5")
 
-[node name="Screen7" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("11_ouckt")]
+[node name="Screen7" parent="." node_paths=PackedStringArray("next_screen", "previous_screen") instance=ExtResource("11_ouckt")]
 position = Vector2(0, -1664)
+next_screen = NodePath("../Screen8")
 previous_screen = NodePath("../Screen6")
+
+[node name="Screen8" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("14_y0q1y")]
+position = Vector2(0, -1984)
+previous_screen = NodePath("../Screen7")
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
 position = Vector2(16, 80)
@@ -232,6 +245,7 @@ position = Vector2(160, 80)
 script = ExtResource("5_056ad")
 follow_mode = 5
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -247,6 +261,7 @@ position = Vector2(32, -346)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -262,6 +277,7 @@ position = Vector2(32, -634)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -277,6 +293,7 @@ position = Vector2(160, -954)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -292,6 +309,7 @@ position = Vector2(160, -1226)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -307,6 +325,7 @@ position = Vector2(32, -1386)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -322,6 +341,7 @@ position = Vector2(64, -1722)
 script = ExtResource("5_056ad")
 follow_mode = 2
 follow_target = NodePath("../Jon")
+snap_to_pixel = true
 tween_resource = SubResource("Resource_c1a14")
 follow_damping = true
 dead_zone_width = 0.5
@@ -331,6 +351,22 @@ limit_left = -96
 limit_top = -1968
 limit_right = 288
 limit_bottom = -1632
+
+[node name="CamScreen8" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(128, -2042)
+script = ExtResource("5_056ad")
+follow_mode = 2
+follow_target = NodePath("../Jon")
+snap_to_pixel = true
+tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
+dead_zone_width = 0.3
+dead_zone_height = 0.3
+draw_limits = true
+limit_left = -32
+limit_top = -2240
+limit_right = 368
+limit_bottom = -1952
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1

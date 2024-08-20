@@ -22,5 +22,5 @@ void fragment() {
 			discard;
 		}
 	}
-	
+
 }

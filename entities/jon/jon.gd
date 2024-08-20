@@ -682,15 +682,16 @@ func on_hurtbox_area_entered(area) -> void:
 	if Events.PAUSE_ON_DEATH:
 		get_tree().paused = true
 	current_piton = Maybe.None()
-	Tracer.info("Player emitted `died` signal.")
 	VfxLayer.shake_weak(true)
 	move_state.disable()
 	jump_state.disable()
 	get_tree().paused = true
 	SceneTransition.fade_in_out()
+	velocity = Vector2.ZERO
 	await SceneTransition.faded_in
 	get_tree().paused = false
 	died.emit(self)
+	Tracer.info("Player emitted `died` signal.")
 	VfxLayer.shake_weak(false)
 	move_state.enable(Idle.new())
 	jump_state.enable(NoJump.new())
