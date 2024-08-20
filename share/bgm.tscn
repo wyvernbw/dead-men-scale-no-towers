@@ -3,5 +3,6 @@
 [ext_resource type="Script" path="res://share/bgm.gd" id="1_emsk8"]
 
 [node name="BGM" type="AudioStreamPlayer"]
+process_mode = 3
 bus = &"BGM"
 script = ExtResource("1_emsk8")
