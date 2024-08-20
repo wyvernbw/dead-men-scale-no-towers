@@ -266,8 +266,6 @@ autoplay = "idle"
 [node name="PointLight2D" type="PointLight2D" parent="Sprite2D"]
 texture_filter = 1
 position = Vector2(8, 8)
-energy = 2.0
-blend_mode = 2
 texture = SubResource("GradientTexture2D_quk4m")
 texture_scale = 4.0
 

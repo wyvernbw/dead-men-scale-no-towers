@@ -25,6 +25,7 @@ Bgm="*res://share/bgm.tscn"
 __InkRuntime="*res://addons/inkgd/ink_runtime.gd"
 UILayer="*res://components/gui/ui_layer.tscn"
 VfxLayer="*res://components/vfx_layer.tscn"
+SceneTransition="*res://components/gui/scene_transition.tscn"
 
 [debug]
 

@@ -363,12 +363,12 @@ class WallJump:
 	func physics_process(jon: Jon, delta: float) -> JumpState:
 		elapsed += delta
 		# counter act gravity
-		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed * Vector2(h_mod, v_mod)
+		jon.velocity = Vector2(-axis, -1.0).normalized() * jon.jump_speed * Vector2(h_mod, v_mod) * 1.1
 		if jon.is_on_ceiling():
 			return Fall.new()
 		if MoveState.get_x_move_dir() == -sign(jon.velocity.x):
 			h_mod = 0.3
-			v_mod = 0.8
+			v_mod = 1.0
 		if elapsed > jon.min_jump_time and not Input.is_action_pressed("jump"):
 			return Fall.new()
 		if elapsed > jon.max_jump_time:
@@ -668,11 +668,14 @@ func on_hurtbox_area_entered(area) -> void:
 		get_tree().paused = true
 	current_piton = Maybe.None()
 	Tracer.info("Player emitted `died` signal.")
-	died.emit(self)
 	VfxLayer.shake_weak(true)
 	move_state.disable()
 	jump_state.disable()
-	await get_tree().create_timer(0.25, false).timeout
+	get_tree().paused = true
+	SceneTransition.fade_in_out()
+	await SceneTransition.faded_in
+	get_tree().paused = false
+	died.emit(self)
 	VfxLayer.shake_weak(false)
 	move_state.enable(Idle.new())
 	jump_state.enable(NoJump.new())
