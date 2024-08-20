@@ -189,7 +189,7 @@ class Rappel:
 
 	func input(jon: Jon, event: InputEvent) -> MoveState:
 		if event.is_action_pressed("jump"):
-			jon.current_piton = Maybe.new()
+			jon.cut_piton()
 			jon.jump_state.transition(RappelJump.new())
 		return self
 
@@ -231,6 +231,7 @@ class Jump:
 		elapsed = 0.0
 		jon.squish_anim.play("hsquish")
 		jon.anim_state.travel("jump")
+		jon.jump_sound.play()
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
@@ -261,6 +262,7 @@ class RappelJump:
 		elapsed = 0.0
 		jon.squish_anim.play("hsquish")
 		jon.anim_state.travel("jump")
+		jon.jump_sound.play()
 		stored_velocity = jon.velocity * 1.25
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
@@ -367,6 +369,7 @@ class WallJump:
 		axis = jon.wall_axis()
 		jon.squish_anim.play("hsquish")
 		jon.anim_state.travel("jump")
+		jon.jump_sound.play()
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
@@ -402,6 +405,7 @@ class ClimbJump:
 		jon.squish_anim.play("hsquish")
 		jon.stamina -= Jon.CLIMB_JUMP_STAMINA_COST
 		jon.anim_state.travel("jump")
+		jon.jump_sound.play()
 		await jon.get_tree().create_timer(jon.min_jump_time * 2.0, false).timeout
 		jon.squish_anim.play("hunsquish")
 		return self
@@ -436,6 +440,8 @@ class ClimbJump:
 @export var piton_spawn: Node2D
 @export var hurtbox: Area2D
 @export var wall_dust: GPUParticles2D
+@export var jump_sound: AudioStreamPlayer2D
+@export var cut_piton_sound: AudioStreamPlayer2D
 
 @export var jump_height: float = 96.0
 @export var jump_speed: float = 96.0
@@ -494,7 +500,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			await piton.hit
 			current_piton = Maybe.new(piton)
 		elif current_piton.is_some():
-			current_piton = Maybe.new()
+			cut_piton()
 
 func _process(delta: float) -> void:
 	move_state.process(delta)
@@ -698,3 +704,7 @@ func on_hurtbox_area_entered(area) -> void:
 
 func fall() -> void:
 	jump_state.transition(Fall.new())
+
+func cut_piton() -> void:
+	current_piton = Maybe.None()
+	cut_piton_sound.play()

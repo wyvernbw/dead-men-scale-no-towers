@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://doeqxwug3v7d2"]
+[gd_scene load_steps=76 format=3 uid="uid://doeqxwug3v7d2"]
 
 [ext_resource type="Texture2D" uid="uid://0pxwklfnmaes" path="res://entities/jon/assets/jon_legs.png" id="1_hooed"]
 [ext_resource type="Script" path="res://entities/jon/jon.gd" id="1_hssag"]
@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://components/collectibles_detector.gd" id="13_82xhg"]
 [ext_resource type="Script" path="res://components/debug_fly.gd" id="14_bih57"]
 [ext_resource type="Texture2D" uid="uid://dqi4k51m10g2i" path="res://entities/effects/dust.png" id="15_hi53y"]
+[ext_resource type="AudioStream" uid="uid://cg80b0q4cg7an" path="res://entities/jon/assets/sounds/jump.wav" id="16_r2205"]
+[ext_resource type="AudioStream" uid="uid://gd7cfa2t0gdq" path="res://entities/jon/assets/sounds/scissors.wav" id="17_yvfqp"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -1214,7 +1216,7 @@ angle_max = 8.90001
 gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_uhid8")
 
-[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox", "wall_dust") groups=["jon"]]
+[node name="Jon" type="CharacterBody2D" node_paths=PackedStringArray("movable", "anim_player", "squish_anim", "sprites_node", "floor_raycasts", "wall_raycasts", "rope", "collectibles_detector", "stamina_anim", "pivot", "piton_spawn", "hurtbox", "wall_dust", "jump_sound", "cut_piton_sound") groups=["jon"]]
 collision_layer = 33
 collision_mask = 258
 script = ExtResource("1_hssag")
@@ -1231,6 +1233,8 @@ pivot = NodePath("Pivot")
 piton_spawn = NodePath("Pivot/PitonSpawn")
 hurtbox = NodePath("Pivot/Hurtbox")
 wall_dust = NodePath("WallDust")
+jump_sound = NodePath("JumpSound")
+cut_piton_sound = NodePath("CutPitonSound")
 jump_speed = 196.0
 max_jump_time = 0.2
 min_jump_time = 0.063
@@ -1651,3 +1655,13 @@ emitting = false
 process_material = SubResource("ParticleProcessMaterial_o03ec")
 texture = ExtResource("15_hi53y")
 lifetime = 0.5
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("16_r2205")
+pitch_scale = 0.96
+
+[node name="CutPitonSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_yvfqp")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+current = true
