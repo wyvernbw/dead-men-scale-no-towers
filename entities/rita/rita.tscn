@@ -1,5 +1,6 @@
-[gd_scene load_steps=42 format=3 uid="uid://b6lx7x726c1yc"]
+[gd_scene load_steps=47 format=3 uid="uid://b6lx7x726c1yc"]
 
+[ext_resource type="Script" path="res://entities/rita/rita.gd" id="1_imanb"]
 [ext_resource type="Texture2D" uid="uid://dqoqpc0g45cwy" path="res://entities/jon/assets/rita_legs.png" id="1_xw0wp"]
 [ext_resource type="Texture2D" uid="uid://dp4d1xxpvwbcc" path="res://entities/rita/assets/rita_torso.png" id="2_vpebd"]
 [ext_resource type="Texture2D" uid="uid://cyxh13nd580wy" path="res://entities/rita/assets/rita_leftarm.png" id="3_hdape"]
@@ -8,7 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://clhvhcbgcvlqf" path="res://entities/rita/assets/rita_face.png" id="6_pkoyw"]
 [ext_resource type="Texture2D" uid="uid://c8gltmwdbonav" path="res://entities/jon/assets/jon_backpack.png" id="9_bwbqn"]
 [ext_resource type="Texture2D" uid="uid://xqfy3x2f2im7" path="res://entities/rita/assets/rita_belt.png" id="9_lrokk"]
+[ext_resource type="Script" path="res://addons/inkgd/ink_player.gd" id="10_u5pqw"]
+[ext_resource type="Resource" uid="uid://dd7a2c63gebn4" path="res://entities/rita/dialogue_1.ink.json" id="11_wfof7"]
 [ext_resource type="Script" path="res://components/movable.gd" id="13_1rq1q"]
+[ext_resource type="Script" path="res://components/actor_component.gd" id="13_7a1cf"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -23,6 +27,34 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_cfvbv"]
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
 }
 
 [sub_resource type="Animation" id="Animation_kn8ue"]
@@ -138,7 +170,17 @@ tracks/1/keys = {
 "values": [0, 1, 2, 3]
 }
 
-[sub_resource type="Animation" id="Animation_cfvbv"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
+_data = {
+"RESET": SubResource("Animation_nxy77"),
+"blink": SubResource("Animation_cfvbv"),
+"climb": SubResource("Animation_kn8ue"),
+"idle": SubResource("Animation_4aisi"),
+"jump": SubResource("Animation_ksiuv"),
+"run": SubResource("Animation_spx6w")
+}
+
+[sub_resource type="Animation" id="Animation_fae02"]
 length = 0.3
 loop_mode = 1
 tracks/0/type = "value"
@@ -163,17 +205,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [0, 1, 2]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_22jr5"]
-_data = {
-"RESET": SubResource("Animation_nxy77"),
-"blink": SubResource("Animation_cfvbv"),
-"climb": SubResource("Animation_kn8ue"),
-"idle": SubResource("Animation_4aisi"),
-"jump": SubResource("Animation_ksiuv"),
-"run": SubResource("Animation_spx6w")
+"values": [0, 0, 0]
 }
 
 [sub_resource type="Animation" id="Animation_5f4v7"]
@@ -314,34 +346,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [0, 0, 0, 0]
-}
-
-[sub_resource type="Animation" id="Animation_fae02"]
-length = 0.3
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = false
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 0, 0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_b2dc7"]
@@ -1170,9 +1174,15 @@ _data = {
 "hunsquish": SubResource("Animation_yttqt")
 }
 
-[node name="Rita" type="CharacterBody2D" groups=["jon"]]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a517w"]
+size = Vector2(192, 64)
+
+[node name="Rita" type="CharacterBody2D" node_paths=PackedStringArray("interaction_area", "actor_component") groups=["jon"]]
 collision_layer = 33
 collision_mask = 258
+script = ExtResource("1_imanb")
+interaction_area = NodePath("InteractionArea")
+actor_component = NodePath("ActorComponent")
 
 [node name="Pivot" type="Node2D" parent="."]
 position = Vector2(16, 16)
@@ -1441,3 +1451,17 @@ autoplay = "idle"
 libraries = {
 "": SubResource("AnimationLibrary_a3mvn")
 }
+
+[node name="FirstEncounter" type="Node" parent="."]
+script = ExtResource("10_u5pqw")
+ink_file = ExtResource("11_wfof7")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_a517w")
+
+[node name="ActorComponent" type="Node" parent="."]
+script = ExtResource("13_7a1cf")

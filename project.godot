@@ -22,6 +22,7 @@ Tracer="*res://addons/tracer/./tracer.gd"
 PhantomCameraManager="*res://addons/phantom_camera/scripts/managers/phantom_camera_manager.gd"
 BetterTerrain="*res://addons/better-terrain/BetterTerrain.gd"
 Bgm="*res://share/bgm.tscn"
+__InkRuntime="*res://addons/inkgd/ink_runtime.gd"
 
 [debug]
 
@@ -36,7 +37,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/tracer/plugin.cfg")
+enabled=PackedStringArray("res://addons/AsepriteWizard/plugin.cfg", "res://addons/better-terrain/plugin.cfg", "res://addons/gut/plugin.cfg", "res://addons/inkgd/plugin.cfg", "res://addons/phantom_camera/plugin.cfg", "res://addons/tracer/plugin.cfg")
 
 [file_customization]
 
@@ -47,6 +48,10 @@ folder_colors={
 [global_group]
 
 jon=""
+
+[inkgd]
+
+register_templates=true
 
 [input]
 

@@ -1,0 +1,15 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://dd7a2c63gebn4"
+path="res://.godot/imported/dialogue_1.ink.json-bf44402ffb8f5237768837d503895415.res"
+
+[deps]
+
+source_file="res://entities/rita/dialogue_1.ink.json"
+dest_files=["res://.godot/imported/dialogue_1.ink.json-bf44402ffb8f5237768837d503895415.res"]
+
+[params]
+
+compress=true
