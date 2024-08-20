@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://byace6ryt582g"]
+[gd_scene load_steps=7 format=3 uid="uid://byace6ryt582g"]
 
 [ext_resource type="FontFile" uid="uid://boxhups2jih67" path="res://components/gui/assets/fonts/nokiafc22.ttf" id="1_afqpi"]
 [ext_resource type="Script" path="res://components/gui/typing_effect.gd" id="2_jhkji"]
 [ext_resource type="Script" path="res://components/gui/dialogue_box.gd" id="2_tycy6"]
+[ext_resource type="Script" path="res://components/gui/gui_input_component.gd" id="4_u64bv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4co6b"]
 bg_color = Color(0, 0, 0, 0.533333)
@@ -16,13 +17,14 @@ default_font = ExtResource("1_afqpi")
 default_font_size = 8
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_4co6b")
 
-[node name="DialogueBox" type="PanelContainer"]
+[node name="DialogueBox" type="PanelContainer" node_paths=PackedStringArray("typing_effect")]
 offset_left = 9.0
 offset_top = 8.0
 offset_right = 308.0
 offset_bottom = 67.0
 theme = SubResource("Theme_alyyd")
 script = ExtResource("2_tycy6")
+typing_effect = NodePath("MarginContainer/Label/TypingEffect")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -40,3 +42,6 @@ autowrap_mode = 3
 
 [node name="TypingEffect" type="Node" parent="MarginContainer/Label"]
 script = ExtResource("2_jhkji")
+
+[node name="Input" type="Node" parent="."]
+script = ExtResource("4_u64bv")

@@ -1,0 +1,15 @@
+[remap]
+
+importer="inkgd.ink.json"
+type="Resource"
+uid="uid://d0c4ew2jb1b8d"
+path="res://.godot/imported/interrupted.ink.json-a3076131427737870bb5e64474804bfb.res"
+
+[deps]
+
+source_file="res://entities/rita/interrupted.ink.json"
+dest_files=["res://.godot/imported/interrupted.ink.json-a3076131427737870bb5e64474804bfb.res"]
+
+[params]
+
+compress=true
