@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://coo2skd38tt2d"]
+[gd_scene load_steps=48 format=3 uid="uid://coo2skd38tt2d"]
 
 [ext_resource type="Script" path="res://components/camera_manager.gd" id="1_jpml2"]
 [ext_resource type="Script" path="res://world/screen_manager.gd" id="1_q5mnp"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cw8m0ngcb4o7x" path="res://world/assets/leaves.png" id="4_gmn8d"]
 [ext_resource type="PackedScene" uid="uid://doeqxwug3v7d2" path="res://entities/jon/jon.tscn" id="4_y7i2i"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_056ad"]
+[ext_resource type="Shader" path="res://world/ice_bg.gdshader" id="6_0qjtv"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_a0gtk"]
 [ext_resource type="Script" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_7v2h5"]
 [ext_resource type="PackedScene" uid="uid://b822mit6xaiyk" path="res://world/screen_3.tscn" id="7_s6d64"]
@@ -18,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://cahtn5gt6l3jm" path="res://world/screen_7.tscn" id="11_ouckt"]
 [ext_resource type="PackedScene" uid="uid://c8rqvr5bn4oyl" path="res://world/screen_5.tscn" id="13_gesug"]
 [ext_resource type="PackedScene" uid="uid://bt2kmfqpny6kp" path="res://world/screen_8.tscn" id="14_y0q1y"]
+[ext_resource type="PackedScene" uid="uid://dd7r0mlw0ueri" path="res://world/screen_9.tscn" id="15_yxd4t"]
 [ext_resource type="Script" path="res://components/sound_area.gd" id="19_syp7p"]
 [ext_resource type="AudioStream" uid="uid://dlaemah5agkkl" path="res://world/assets/ambient/birds_forest.mp3" id="20_rkoww"]
 [ext_resource type="AudioStream" uid="uid://ugh50cp1n233" path="res://world/assets/ambient/wind.mp3" id="21_kxsb7"]
@@ -26,6 +28,13 @@
 particle_flag_disable_z = true
 emission_shape = 3
 emission_box_extents = Vector3(1, 512, 1)
+gravity = Vector3(-64, 32, 0)
+scale_min = 0.5
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gp8vg"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 300, 1)
 gravity = Vector3(-64, 32, 0)
 scale_min = 0.5
 
@@ -45,6 +54,23 @@ scale_min = 0.5
 scale_max = 0.5
 color = Color(1, 1, 1, 0.6)
 color_initial_ramp = SubResource("GradientTexture1D_f1i85")
+
+[sub_resource type="Gradient" id="Gradient_1gyvr"]
+offsets = PackedFloat32Array(0, 0.489627, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_abc7c"]
+gradient = SubResource("Gradient_1gyvr")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8y2qx"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 512, 1)
+gravity = Vector3(-128, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+color = Color(1, 1, 1, 0.6)
+color_initial_ramp = SubResource("GradientTexture1D_abc7c")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0dxju"]
 particles_animation = true
@@ -71,6 +97,29 @@ angle_max = 250.4
 angle_curve = SubResource("CurveTexture_7wgw8")
 gravity = Vector3(-12, 4, 0)
 anim_offset_max = 1.0
+
+[sub_resource type="Gradient" id="Gradient_j3oki"]
+offsets = PackedFloat32Array(0.288382, 1)
+colors = PackedColorArray(0.136826, 0.136826, 0.136826, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nbbhh"]
+gradient = SubResource("Gradient_j3oki")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_igmo0"]
+shader = ExtResource("6_0qjtv")
+shader_parameter/strengthTex = SubResource("GradientTexture2D_nbbhh")
+
+[sub_resource type="Gradient" id="Gradient_y0gds"]
+offsets = PackedFloat32Array(0, 0.287938, 1)
+colors = PackedColorArray(0.451, 0.937, 0.91, 0, 0.451, 0.937, 0.91, 1, 0.152941, 0.537255, 0.803922, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_c6fy2"]
+gradient = SubResource("Gradient_y0gds")
+width = 1
+height = 32
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0fc3i"]
 blend_mode = 3
@@ -119,20 +168,42 @@ initial_camera = NodePath("../CamScreen1")
 [node name="Snow1" type="GPUParticles2D" parent="."]
 z_index = 1
 position = Vector2(624, -2096)
-amount = 512
+amount = 128
 process_material = SubResource("ParticleProcessMaterial_fo5l8")
 texture = ExtResource("3_rgexe")
-lifetime = 32.0
+lifetime = 12.0
 preprocess = 32.0
+visibility_rect = Rect2(-32707.8, -441.784, 32716.2, 17001.1)
+
+[node name="Snow2" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(960, -2976)
+amount = 2048
+process_material = SubResource("ParticleProcessMaterial_gp8vg")
+texture = ExtResource("3_rgexe")
+lifetime = 12.0
+preprocess = 64.0
 visibility_rect = Rect2(-32707.8, -441.784, 32716.2, 17001.1)
 
 [node name="Wind" type="GPUParticles2D" parent="."]
 z_index = 1
 position = Vector2(2160, -1984)
-amount = 1024
+amount = 128
 process_material = SubResource("ParticleProcessMaterial_8lr4f")
 texture = ExtResource("3_rehke")
-lifetime = 32.0
+lifetime = 12.0
+preprocess = 32.0
+visibility_rect = Rect2(-18904.4, -1031.88, 18913.3, 2060.84)
+trail_enabled = true
+trail_section_subdivisions = 6
+
+[node name="Wind2" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(2112, -2624)
+amount = 128
+process_material = SubResource("ParticleProcessMaterial_8y2qx")
+texture = ExtResource("3_rehke")
+lifetime = 12.0
 preprocess = 32.0
 visibility_rect = Rect2(-18904.4, -1031.88, 18913.3, 2060.84)
 trail_enabled = true
@@ -142,12 +213,21 @@ trail_section_subdivisions = 6
 z_index = 16
 material = SubResource("CanvasItemMaterial_0dxju")
 position = Vector2(544, -320)
-amount = 64
+amount = 256
 process_material = SubResource("ParticleProcessMaterial_qo7c0")
 texture = ExtResource("4_gmn8d")
 lifetime = 32.0
 preprocess = 32.0
 visibility_rect = Rect2(-6175.34, -618.735, 6200.31, 3131.33)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_igmo0")
+offset_left = -432.0
+offset_top = -3088.0
+offset_right = 752.0
+offset_bottom = -1984.0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_c6fy2")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 scroll_scale = Vector2(0, 0.14)
@@ -167,16 +247,6 @@ texture = ExtResource("2_406jw")
 [node name="Node2D" type="Node2D" parent="Parallax2D"]
 z_index = -1
 position = Vector2(0, -48)
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Parallax2D/Node2D"]
-material = SubResource("CanvasItemMaterial_0dxju")
-position = Vector2(544, -368)
-amount = 512
-process_material = SubResource("ParticleProcessMaterial_qo7c0")
-texture = ExtResource("4_gmn8d")
-lifetime = 32.0
-preprocess = 64.0
-visibility_rect = Rect2(-6175.02, -771.422, 6200.02, 3587.7)
 
 [node name="TextureRect" type="TextureRect" parent="Parallax2D/Node2D"]
 material = SubResource("CanvasItemMaterial_0fc3i")
@@ -242,9 +312,15 @@ position = Vector2(0, -1664)
 next_screen = NodePath("../Screen8")
 previous_screen = NodePath("../Screen6")
 
-[node name="Screen8" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("14_y0q1y")]
+[node name="Screen8" parent="." node_paths=PackedStringArray("next_screen", "previous_screen") instance=ExtResource("14_y0q1y")]
 position = Vector2(0, -1984)
+next_screen = NodePath("../Screen9")
 previous_screen = NodePath("../Screen7")
+
+[node name="Screen9" parent="." node_paths=PackedStringArray("previous_screen") instance=ExtResource("15_yxd4t")]
+position = Vector2(0, -1984)
+bgm_track = "a_new_dawn.mp3"
+previous_screen = NodePath("../Screen8")
 
 [node name="Jon" parent="." instance=ExtResource("4_y7i2i")]
 position = Vector2(16, 80)
@@ -376,6 +452,22 @@ limit_left = -32
 limit_top = -2240
 limit_right = 368
 limit_bottom = -1952
+
+[node name="CamScreen9" type="Node2D" parent="." node_paths=PackedStringArray("follow_target")]
+position = Vector2(96, -2250)
+script = ExtResource("5_056ad")
+follow_mode = 2
+follow_target = NodePath("../Jon")
+snap_to_pixel = true
+tween_resource = SubResource("Resource_c1a14")
+follow_damping = true
+dead_zone_width = 0.3
+dead_zone_height = 0.3
+draw_limits = true
+limit_left = -64
+limit_top = -28900
+limit_right = 624
+limit_bottom = -2160
 
 [node name="Camera2D" type="Camera2D" parent="."]
 physics_interpolation_mode = 1

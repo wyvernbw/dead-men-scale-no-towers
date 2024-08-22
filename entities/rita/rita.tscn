@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://b6lx7x726c1yc"]
+[gd_scene load_steps=49 format=3 uid="uid://b6lx7x726c1yc"]
 
 [ext_resource type="Script" path="res://entities/rita/rita.gd" id="1_imanb"]
 [ext_resource type="Texture2D" uid="uid://dqoqpc0g45cwy" path="res://entities/jon/assets/rita_legs.png" id="1_xw0wp"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" path="res://components/movable.gd" id="13_1rq1q"]
 [ext_resource type="Script" path="res://components/actor_component.gd" id="13_7a1cf"]
 [ext_resource type="Resource" uid="uid://d0c4ew2jb1b8d" path="res://entities/rita/interrupted.ink.json" id="13_bibxi"]
+[ext_resource type="Resource" uid="uid://dhx00qdoiycus" path="res://entities/rita/final.ink.json" id="14_rd2b1"]
 
 [sub_resource type="Animation" id="Animation_nxy77"]
 length = 0.001
@@ -1460,6 +1461,10 @@ ink_file = ExtResource("11_wfof7")
 [node name="Interrupted" type="Node" parent="."]
 script = ExtResource("10_u5pqw")
 ink_file = ExtResource("13_bibxi")
+
+[node name="Final" type="Node" parent="."]
+script = ExtResource("10_u5pqw")
+ink_file = ExtResource("14_rd2b1")
 
 [node name="InteractionArea" type="Area2D" parent="."]
 collision_layer = 0

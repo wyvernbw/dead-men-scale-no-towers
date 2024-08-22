@@ -293,6 +293,7 @@ autoplay = "idle"
 show_behind_parent = true
 texture_filter = 1
 position = Vector2(8, 8)
+energy = 0.25
 texture = SubResource("GradientTexture2D_quk4m")
 texture_scale = 4.0
 
